@@ -2272,6 +2272,14 @@ def main() -> None:
         with tab_admin:
             render_admin_dashboard()
 
+    # Show updated popup toast for non-admin users once per session
+    if not is_admin_mode and not st.session_state.get("quiz_updated_popup_shown", False):
+        st.session_state.quiz_updated_popup_shown = True
+        st.toast(
+            "🚀 Quiz generation has been updated! If you encounter any irrelevant questions, just skip them; you will find relevant ones 99% of the time.",
+            icon="ℹ️"
+        )
+
     _render_usage_tracker()
 
     st.markdown(
