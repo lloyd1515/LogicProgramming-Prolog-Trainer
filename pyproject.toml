@@ -1,0 +1,13 @@
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+ignore = ["E501"]
+
+[tool.ruff.lint.per-file-ignores]
+"app/app.py" = ["E402"]
+"app/extract_everything.py" = ["E402"]
+"app/index_courses.py" = ["E402"]
+"app/search_cli.py" = ["E402"]

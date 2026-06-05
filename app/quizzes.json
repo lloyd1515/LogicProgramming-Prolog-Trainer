@@ -1,0 +1,1838 @@
+[
+  {
+    "type": "code_completion",
+    "topic": "Selection Sort",
+    "question_text": "The predicate below should increasingly sort by selection, using max(List, Elem) and delete(Elem, ListIn, ListOut) correct predicates to find the max value, and delete a value from a list, respectively. Fill in the blanks for a correct predicate:",
+    "code": "wrapper(In, Out) :-\n    sort(In, blank1, Out).\n\nsort(In, Acc, blank2) :-\n    max(In, M),\n    delete(blank3, blank4, blank5),\n    sort(Int, blank6, Out).\n\nsort([], Out, blank7).",
+    "blanks_or_options": [
+      "blank1",
+      "blank2",
+      "blank3",
+      "blank4",
+      "blank5",
+      "blank6",
+      "blank7"
+    ],
+    "correct_answer": "blank1 = [], blank2 = Out, blank3 = M, blank4 = In, blank5 = Int, blank6 = [M|Acc], blank7 = Out",
+    "source": "Screenshot 2026-06-03 221536.png"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Prolog Cuts",
+    "question_text": "Choose the correct, necessary update on the implementation of the member predicate to ensure a nondeterministic behavior:",
+    "code": "member(_, []) :- !,\n    fail.\nmember(H, [H|_]) :- !.\nmember(H, [_|T]) :-\n    member(H, T).",
+    "blanks_or_options": [
+      "a. Change the order of clauses 1 and 2.",
+      "b. Remove the first clause.",
+      "c. Remove the cut (!) in the second clause.",
+      "d. Remove the cut (!) in the first clause."
+    ],
+    "correct_answer": "c. Remove the cut (!) in the second clause.",
+    "source": "Screenshot 2026-06-03 221558.png"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Difference Lists / Incomplete BST",
+    "question_text": "The following code is assumed to collect, in order, the internal nodes (non leaves) of an incomplete BST, using difference lists (argument 2 is the beginning and argument 3 is the end of the difference list). Choose the most specific answer from below:",
+    "code": "collect_internal(t(L, _, R), B, B) :-\n    var(L), var(R), !.\n\ncollect_internal(t(L, Key, R), B, E) :-\n    var(R), !,\n    collect_internal(L, B, [Key|E]).\n\ncollect_internal(t(L, Key, R), B, E) :-\n    var(L), !,\n    collect_internal(R, [Key|B], E).\n\ncollect_internal(t(L, Key, R), BRez, ERez) :-\n    collect_internal(R, Int, ERez),\n    collect_internal(L, BRez, [Key|Int]).",
+    "blanks_or_options": [
+      "a. The predicate is incorrect because the pattern of adding the Key in the second clause (on the left list (L)) [Key|E] must occur in the head of the rule.",
+      "b. The predicate is incorrect because the pattern of adding the Key in the third clause (on the right list (R)) [Key|B] must occur in the head of the rule.",
+      "c. The predicate is incorrect as in the 4th clause the recursive calls are swapped.",
+      "d. The predicate is incorrect, as is missing a first clause on var(T)."
+    ],
+    "correct_answer": "b. The predicate is incorrect because the pattern of adding the Key in the third clause (on the right list (R)) [Key|B] must occur in the head of the rule.",
+    "source": "Screenshot 2026-06-03 221629.png"
+  },
+  {
+    "type": "code_completion",
+    "topic": "Prolog Database Manipulation",
+    "question_text": "Given a knowledge base of the form weather(city_name, temperature)., write a predicate to collect in a list the names of all cities with a temperature over a given threshold (temperature >= threshold), WITHOUT using the findall predicate. Complete the get_all_temp/2 predicate specification below accordingly:",
+    "code": "get_all_temp(Th, _) :-\n    weather(City, T),\n    blank1,\n    assert(blank2),\n    blank3.\nget_all_temp(_, L) :- blank4.\n\ng(blank5) :-\n    retract(good(H)),\n    blank6,\n    g(R).\ng(blank7).",
+    "blanks_or_options": [
+      "blank1",
+      "blank2",
+      "blank3",
+      "blank4",
+      "blank5",
+      "blank6",
+      "blank7"
+    ],
+    "correct_answer": "blank1 = T >= Th, blank2 = good(City), blank3 = fail, blank4 = g(L), blank5 = [H|R], blank6 = !, blank7 = []",
+    "source": "Screenshot 2026-06-03 221646.png"
+  },
+  {
+    "type": "code_completion",
+    "topic": "Binary Search Tree",
+    "question_text": "I want to write a predicate which computes the maximum key in a BST. Complete the partial implementation so that you get a correct predicate:",
+    "code": "max(t(K, _, blank1), blank2).\nmax(t(K, L, R), M) :- max(blank3).",
+    "blanks_or_options": [
+      "blank1",
+      "blank2",
+      "blank3"
+    ],
+    "correct_answer": "blank1 = nil, blank2 = K, blank3 = R, M",
+    "source": "Screenshot 2026-06-03 221657.png"
+  },
+  {
+    "type": "code_tracing",
+    "topic": "Prolog List Manipulation",
+    "question_text": "Given the predicates below, which is the first answer to the following query?\n?- aa(_, Y, _, [1,2,3,4]).",
+    "code": "a([H|T], L, [H|R]) :- a(T, L, R).\na([], L, L).\n\naa(A, B, C, D) :- a(A, B, E), a(E, C, D).",
+    "blanks_or_options": [
+      "a. No answer. Execution enters infinite loop.",
+      "b. false",
+      "c. Y = [1,2,3,4]",
+      "d. Y = []"
+    ],
+    "correct_answer": "a. No answer. Execution enters infinite loop.",
+    "source": "Screenshot 2026-06-03 221708.png"
+  },
+  {
+    "type": "code_completion",
+    "topic": "Prolog List Manipulation",
+    "question_text": "The predicate below should be a predicate to find and delete the last occurrence of the max value from a list. Fill in the blanks for a correct predicate:",
+    "code": "max_delete([H|T], blank1, blank2) :-\n    max_delete(T, Max, DT),\n    H blank3 Max,\n    blank4.\n\nmax_delete([H|T], blank5, blank6).",
+    "blanks_or_options": [
+      "blank1",
+      "blank2",
+      "blank3",
+      "blank4",
+      "blank5",
+      "blank6"
+    ],
+    "correct_answer": "blank1 = Max, blank2 = [H|DT], blank3 = =<, blank4 = !, blank5 = H, blank6 = T",
+    "source": "Screenshot 2026-06-03 221718.png"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Graph Complement (Prolog)",
+    "question_text": "Given the edge representation of an undirected graph, the complement of the graph is calculated by the sequence below. Assume a predicate is_edge is present for each of the 2 graphs (G - input graph and G-complement - the complement of the graph). Choose the most specific correct answer from below:",
+    "code": "complement :-\n    is_edge(X, _),\n    is_edge(Y, _),\n    X \\= Y,\n    not(is_edge(X, Y)),\n    not(is_edge_complement(X, Y)), !,\n    assertz(edge_complement(X, Y)),\n    fail.\ncomplement.\n\nis_edge(X, Y) :-\n    edge(X, Y);\n    edge(Y, X).",
+    "blanks_or_options": [
+      "a. The sequence is correct as the input graph is entirely scanned for all possible pairs and appropriate verifications in the input and complement graph are performed.",
+      "b. The sequence is incorrect, as it is missing a ! after not(is_edge(X, Y)).",
+      "c. The sequence is incorrect, as it contains the ! after not(is_edge_complement(X, Y)).",
+      "d. The sequence is correct as the input graph is entirely scanned for all possible pairs and appropriate verifications in the input graph are performed."
+    ],
+    "correct_answer": "c. The sequence is incorrect, as it contains the ! after not(is_edge_complement(X, Y)).",
+    "source": "Screenshot 2026-06-03 221732.png"
+  },
+  {
+    "type": "code_tracing",
+    "topic": "Prolog list manipulation, minimum element, tracing, I/O",
+    "question_text": "The code below deletes the minimum element in a list. We executed it on list L, which we know to look as L=[6,......]. Given that, according to the specific write/writeln statements, the execution displays what you see below, how did the initial list L look like?",
+    "code": "del_min([H|T], [H|R], M) :-\n    del_min(T,R,M),\n    M=<H, !,\n    write(R), write(' '), writeln(M).\ndel_min([H|T], T, H) :-\n    write(T), write(' '), writeln(H).\n\n?-L=[6,...], del_min(L,New_List,Min).",
+    "blanks_or_options": null,
+    "correct_answer": "[6,1,2,3,1,3,4]",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 1)"
+  },
+  {
+    "type": "code_tracing",
+    "topic": "Prolog list manipulation, minimum element, tracing, I/O",
+    "question_text": "The code below deletes the minimum element in a list. We executed it on list L, which we know to look as L=[7,.......]. Given that, according to the specific write/writeln statements, the execution displays what you see below, how did the initial list L look like?",
+    "code": "del_min([H|T], [H|R], M) :-\n    del_min(T,R,M),\n    M=<H, !,\n    write(R), write(' '), writeln(M).\ndel_min([H|T], T, H) :-\n    write(T), write(' '), writeln(H).\n\n?-L=[7,...], del_min(L,New_List,Min).",
+    "blanks_or_options": null,
+    "correct_answer": "[7,2,1,3,1,5,8]",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 1)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Prolog cut operator",
+    "question_text": "A cut would freeze (prevent from backtracking) some nodes in the tree. However, it is NOT freezing:",
+    "code": null,
+    "blanks_or_options": [
+      "Its parent node after the cut is executed",
+      "A subtree of its sibling node to its left before the cut is executed",
+      "The subtree of its leftmost sibling node after the cut is executed",
+      "Its leftmost sibling node after the cut is executed"
+    ],
+    "correct_answer": "A subtree of its sibling node to its left before the cut is executed",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 2)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Prolog sorting algorithms, stability",
+    "question_text": "To make the predicate select_sort/3 stable, we need to:",
+    "code": "select_sort(In, Acc, Rez) :-\n    max_delete(In, In_without_Max, Max),\n    select_sort(In_without_Max, [Max|Acc], Rez).\nselect_sort([], L, L).\n\nmax_delete([H|T], [H|R], M) :-\n    max_delete(T, R, M),\n    M>H, !.\nmax_delete([H|T], T, H).",
+    "blanks_or_options": [
+      "nothing, it is stable as it is",
+      "swap the order of max_delete(In, In_without_Max, Max) and select_sort(In_without_Max, [Max|Acc], Rez)",
+      "change the inequality into a nonstrict one",
+      "add a clause for the empty list in max_delete predicate"
+    ],
+    "correct_answer": "change the inequality into a nonstrict one",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 2)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Prolog variables, instantiation, backtracking",
+    "question_text": "The predicate swap can be used for bubble sort. The F variable:",
+    "code": "swap([A,B|T], [B|R], F) :-\n    A>B, !,\n    F=y,\n    swap([A|T], R, F).\nswap([A,B|T], [A|R], F) :-\n    swap([B|T], R, F).\nswap([A], [A], n) :-!.\nswap([A], [A], y) :-!.",
+    "blanks_or_options": [
+      "a. must be instantiated in the call, either to y or n",
+      "b. gets instantiated on one of the two stopping conditions",
+      "c. it gets re-instantiated whenever the first clause is reached during the execution",
+      "d. gets instantiated to y in the first clause, then maintains its value throughout the execution"
+    ],
+    "correct_answer": "c",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 3)"
+  },
+  {
+    "type": "code_tracing",
+    "topic": "Prolog bubble sort, list manipulation, append",
+    "question_text": "The predicate below implements bubble sort (where append/3 has the regular, correct implementation). How many calls does the second append make to get the sorted array for the input [2,1,5,4,3]:",
+    "code": "bubble_sort(In, Out) :-\n    append(X, [A,B|Y], In),\n    A>B, !,\n    append(X, [B,A|Y], Int),\n    bubble_sort(Int, Out).\nbubble_sort(In, In).",
+    "blanks_or_options": [
+      "a. 4",
+      "b. 2",
+      "c. 3",
+      "d. 5"
+    ],
+    "correct_answer": "a",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 3)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Prolog list member predicate, cut and fail",
+    "question_text": "The predicate below has to verify if the first argument (an element) is present in the second argument. The following is true about the correctness of the predicate:",
+    "code": "member(H, [H|_]).\nmember(X, [_|T]):-\n    member(X, T).\nmember(_, []):-!, fail.",
+    "blanks_or_options": [
+      "a. it is incorrect, because it fails when reaching the empty list.",
+      "b. it is correct and all clauses are necessary.",
+      "c. it is incorrect, because it always fails.",
+      "d. it is correct, but the last clause is not necessary."
+    ],
+    "correct_answer": "d. it is correct, but the last clause is not necessary.",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 4)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Incomplete Binary Search Trees (iBST) search, Prolog logic",
+    "question_text": "The predicate below is intending to search for a given element in an incomplete Binary Search Tree (ended in variable). Do do so, we need to do the following:",
+    "code": "search_iBST(K, t(_,K,_)):-!.\nsearch_iBST(SK, t(L,K,_)):-\n    SK<K, !,\n    search_iBST(SK,L).\nsearch_iBST(SK, t(_,_,R)):-\n    search_iBST(SK,R).",
+    "blanks_or_options": [
+      "a. add the following clause search_iBST(_, V) :- var(V), !. mandatory as the first clause.",
+      "b. add the following clause search_iBST(_, V) :- var(V), !, fail. anywhere in the code.",
+      "c. add the following clause search_iBST(_, V) :- var(V), !, fail. mandatory as the first clause.",
+      "d. add some clause for nil."
+    ],
+    "correct_answer": "c. add the following clause search_iBST(_, V) :- var(V), !, fail. mandatory as the first clause.",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 4)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Predicate determinism/nondeterminism, list concatenation",
+    "question_text": "The predicate below concatenates two lists. To have a nondeterministic call, we need to:",
+    "code": "append([H|T], L, [H|R]) :-\n  append(T, L, R).\nappend([], L, L).",
+    "blanks_or_options": [
+      "a. change the order of the clauses",
+      "b. make the initial call with the first 2 arguments free variables",
+      "c. add a clause to decompose the second argument",
+      "d. make the initial call with all 3 arguments free variables"
+    ],
+    "correct_answer": "b. make the initial call with the first 2 arguments free variables",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 5)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Predicate determinism, cuts, list manipulation",
+    "question_text": "The predicate below deletes one element from a list. It deletes deterministically because:",
+    "code": "delete(H, [H|T], T) :- !.\ndelete(X, [H|T], [H|R]) :-\n  delete(X, T, R).",
+    "blanks_or_options": [
+      "a. it has just one recursive call",
+      "b. it has no fact on the empty list",
+      "c. it has a cut in the non-recursive clause",
+      "d. it has no cut in the recursive clause"
+    ],
+    "correct_answer": "c. it has a cut in the non-recursive clause",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 5)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Prolog Lists",
+    "question_text": "Which of the answers from below is correct and the most specific?\nThe list [_] is ...",
+    "code": null,
+    "blanks_or_options": [
+      "a. not an incomplete list as it contains only one single variable element.",
+      "b. an incomplete list.",
+      "c. not an incomplete list as it is missing the | pattern.",
+      "d. not an incomplete list as there are no other elements in the list other than the final variable."
+    ],
+    "correct_answer": "b",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 6)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Prolog Cut and Backtracking",
+    "question_text": "Which categories of nodes are frozen (prevented from backtracking) by a cut:",
+    "code": null,
+    "blanks_or_options": [
+      "a. Any node to its left before the execution of the cut",
+      "b. Any sibling node to its right after the execution of the cut",
+      "c. The parent node if the cut is the last subgoal",
+      "d. Its parent node after the execution of the cut"
+    ],
+    "correct_answer": "a. Any node to its left before the execution of the cut",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 7)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Prolog Cut and Backtracking",
+    "question_text": "A cut NEVER affects:",
+    "code": null,
+    "blanks_or_options": [
+      "a. Its parent node",
+      "b. A sibling node to its left",
+      "c. Subtrees of subgoals to its right",
+      "d. The subtree of a sibling node to its left"
+    ],
+    "correct_answer": "c. Subtrees of subgoals to its right",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 7)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Prolog Cut and Backtracking",
+    "question_text": "A cut would freeze (prevent from backtracking) some nodes in the tree. However, it is NOT freezing:",
+    "code": null,
+    "blanks_or_options": [
+      "a. Its parent node after the cut is executed",
+      "b. The subtree of its leftmost sibling node after the cut is executed",
+      "c. A sibling node to its left before the cut is executed",
+      "d. Its leftmost sibling node after the cut is executed"
+    ],
+    "correct_answer": "c. A sibling node to its left before the cut is executed",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 7)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Unification",
+    "question_text": "What is wrong with the following unification?",
+    "code": "?- n(c(a,B), V, m(1,[2,B])) = N(c(a,B), V, m(1,[2|[3]])).",
+    "blanks_or_options": [
+      "a. It fails, because m(1,[2,B]) cannot unify with m(1,[2|[3]]).",
+      "b. It fails, because the two structures do not have the same name.",
+      "c. The name of the structure on the right is not constant.",
+      "d. It fails, because V cannot unify with V."
+    ],
+    "correct_answer": "b. It fails, because the two structures do not have the same name.",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 8)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "List matching",
+    "question_text": "When matching [X|Y] with [1,2,b] the result is:",
+    "code": null,
+    "blanks_or_options": [
+      "Success, with X=1, Y=[2,b]",
+      "Success, with X=[1,2], Y=b",
+      "Failure, as Y cannot become heterogeneous",
+      "Failure, as the first list has 3 elements while the second 2 elements"
+    ],
+    "correct_answer": "Success, with X=1, Y=[2,b]",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 8)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "List matching",
+    "question_text": "The following matching: [1,2,3] with [A,B|C] would provide the following instantiations:",
+    "code": null,
+    "blanks_or_options": [
+      "A=1, B=2, C=[3]",
+      "The matching fails",
+      "A=1, B=2, C=3",
+      "No instantiation is provided"
+    ],
+    "correct_answer": "A=1, B=2, C=[3]",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 8)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Prolog lists",
+    "question_text": "Which of the answers from below is correct and the most specific? The list [A|_] is...",
+    "code": null,
+    "blanks_or_options": [
+      "an incomplete list as A is a free variable",
+      "a list with just one element (A) with an unknown value",
+      "an incomplete list as its variable termination _ occurs after the pattern |.",
+      "an incomplete list as it contains _"
+    ],
+    "correct_answer": "an incomplete list as its variable termination _ occurs after the pattern |.",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 8)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Prolog Unification",
+    "question_text": "The following matching: f(A,g(B),4) with f(a,g,4) would fail because:",
+    "code": null,
+    "blanks_or_options": [
+      "a. 4 is the 3rd argument",
+      "b. The matching actually succeeds",
+      "c. Because of the second argument (g(B) is an expression while g is a constant)",
+      "d. A should be lower case"
+    ],
+    "correct_answer": "c. Because of the second argument (g(B) is an expression while g is a constant)",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 9)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Prolog Lists",
+    "question_text": "Which of the answers from below is correct and the most specific? The list [A|_] may consist of ...",
+    "code": null,
+    "blanks_or_options": [
+      "a. at least 1 element",
+      "b. exactly 1 element",
+      "c. at least 2 elements",
+      "d. exactly 2 elements"
+    ],
+    "correct_answer": "a. at least 1 element",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 9)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Prolog List Matching/Unification",
+    "question_text": "The following matching: [A,b|C] with [1,2,3,4] fails because:",
+    "code": null,
+    "blanks_or_options": [
+      "a. The first list has 3 elements while the second one 4 elements",
+      "b. Both b and 2 are constants (and different)",
+      "c. The matching succeeds with instantiation: A=1, C=[3,4]",
+      "d. The first list has letters while the second one numbers"
+    ],
+    "correct_answer": "b. Both b and 2 are constants (and different)",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 10)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Prolog Recursion (Backward/Forward)",
+    "question_text": "The recursive clause below of some predicate is designed with backward recursion because:",
+    "code": "p([H|T],Some_Result) :-\n  p(T, Some_Part_Result),\n  combines(H, Some_Part_Result, Some_Result).",
+    "blanks_or_options": [
+      "a. No other operation is performed before the recursive call",
+      "b. It processes the current element after ending the recursion",
+      "c. It only has 2 arguments, hence, cannot be forward",
+      "d. It is NOT backward recursion as combines has 3 arguments"
+    ],
+    "correct_answer": "b. It processes the current element after ending the recursion",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 10)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Recursive clauses, base cases, recursion stopping condition",
+    "question_text": "Consider a predicate having a recursive clause, as below:\np([H|T], Some_Result):-\n    p(T, Some_Part_Result),\n    combines(H, Some_Part_Result, Some_Result).\nOn the stopping condition:",
+    "code": "p([H|T], Some_Result):-\n    p(T, Some_Part_Result),\n    combines(H, Some_Part_Result, Some_Result).",
+    "blanks_or_options": [
+      "a. We obtain the final result",
+      "b. The result has to be made available at the top level (call level)",
+      "c. The value of the second argument doesn't matter",
+      "d. The result has to be initialized"
+    ],
+    "correct_answer": "d. The result has to be initialized",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 11)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "List manipulation, replacing elements, recursion, Prolog predicate modification",
+    "question_text": "The predicate below is assumed to replace one occurrence of the first argument, from the list given in the second argument, with the third argument, to generate the list in the fourth argument.\nTo behave accordingly (as in the associated example), the code should be updated in the following way:\nrep(X, [H|T], Y, [H|R]) :-\n    rep(X, T, Y, R).\nrep(X, [X|T], Y, [Y|T]).\n\n?- rep(b, [a,b,c,b,d], z,R).\nR= [a,z,c,b,d] ? ;\nR= [a,b,c,z,d] ? ;\nR= [a,b,c,b,d] ? ;\nno",
+    "code": "rep(X, [H|T], Y, [H|R]) :-\n    rep(X, T, Y, R).\nrep(X, [X|T], Y, [Y|T]).",
+    "blanks_or_options": [
+      "a. Update clause 1 to: rep(X,[H|T],Y,R) :- !, rep(X,T,Y,R).",
+      "b. Remove clause 2.",
+      "c. Update clause 2 to: rep(X,[H|T],Y,R) :- !, rep(X,T,Y,R).",
+      "d. Add another clause like: rep(X,[X|_],Y,[Y]).",
+      "e. Update clause 1 to: rep(X,[H|T],Y,[Y|T]) :- !.",
+      "f. Swap the order of clauses 1 and 2.",
+      "g. Update clause 2 to: rep(X,[H|T],Y,[H|R]) :- !, rep(X,T,Y,R).",
+      "h. Add the clause rep(_, [], _, [])."
+    ],
+    "correct_answer": "h. Add the clause rep(_, [], _, []).",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 11)"
+  },
+  {
+    "type": "code_completion",
+    "topic": "Ordered list insertion (last occurrence)",
+    "question_text": "Say we want to write a predicate which inserts an element, in order, into an ordered list, as last occurence. Complete the partial implementation so that you get a correct predicate:\ninsertOrd(X, [H|T], [_______]) :- X > H, !, insertOrd(X, T, _______).\ninsertOrd(X, _______, [X|T]).",
+    "code": "insertOrd(X, [H|T], [blank1]) :- X > H, !, insertOrd(X, T, blank2).\ninsertOrd(X, blank3, [X|T]).",
+    "blanks_or_options": [
+      "blank1",
+      "blank2",
+      "blank3"
+    ],
+    "correct_answer": "blank1 = H|R, blank2 = R, blank3 = T",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 12)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "List manipulation, deletion, backtracking",
+    "question_text": "The predicate below is assumed to remove exactly one occurrence (in turn) of the first argument, from the list given in the second argument, to generate the list in the third argument.\nTo behave accordingly (as in the associated example), the code should be updated in the following way:",
+    "code": "delete(X, [X|T], T).\ndelete(X, [H|T], [H|R]) :-\n    delete(X, T, R).\ndelete(_, [], []).\n\n?- delete(b, [a,b,c,b,d], R).\nR= [a,c,b,d] ? ;\nR= [a,b,c,d] ? ;\nno",
+    "blanks_or_options": [
+      "a. Remove the clause delete(X,[X|T],T).",
+      "b. Swap the order of clauses 1 and 2.",
+      "c. Add another clause like: delete(X,[X|[]],[]).",
+      "d. Swap the order of clauses 1 and 3.",
+      "e. Remove the clause delete(_,[],[]).",
+      "f. Update the clause 2 as delete(X,[H|T],[H|R]) :- !, delete(X,T,R).",
+      "g. Update the clause 1 as delete(X,[X|T],T):-!.",
+      "h. Update the clause 2 as delete(X,[H|T],[H|R]):-!,delete(X,T,R)."
+    ],
+    "correct_answer": "e. Remove the clause delete(_,[],[]).",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 12)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Prolog List Manipulation",
+    "question_text": "The predicate below replaces all occurrences of an element from a list with another element. It has an incorrect non-deterministic behavior, because:",
+    "code": "replace(_, _, [], []).\nreplace(H, A, [H|T], [A|R]):-\n    replace(H, A, T, R).\nreplace(X, A, [H|T], [H|R]):-\n    replace(X, A, T, R).",
+    "blanks_or_options": [
+      "a. it has a clause for the empty list",
+      "b. it has no cut in the second clause",
+      "c. it has no cut in the first clause",
+      "d. it has a recursive call in the second clause (it shouldn't)"
+    ],
+    "correct_answer": "b. it has no cut in the second clause",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 13)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Prolog List Manipulation",
+    "question_text": "The predicate below replaces all occurrences of an element from a list with another element. It has an incorrect behavior, because:",
+    "code": "replace(H, A, [H|T], [A|R]):-\n    !,\n    replace(H, A, T, R).\nreplace(X, A, [H|T], [H|R]):-\n    replace(X, A, T, R).",
+    "blanks_or_options": [
+      "a. it has a recursive call in the second clause (it shouldn't)",
+      "b. it has a cut in the first clause",
+      "c. it has no cut in the last clause",
+      "d. it doesn't have a clause for the empty list"
+    ],
+    "correct_answer": "d. it doesn't have a clause for the empty list",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 13)"
+  },
+  {
+    "type": "code_completion",
+    "topic": "Prolog Sorting Algorithms / Selection Sort",
+    "question_text": "The predicate below should find and delete the last occurrence of the maximum value from a list. Complete the predicate:",
+    "code": "max_delete([H|T], blank1, blank2) :-\n    max_delete(T, Max, DT),\n    H blank3 Max,\n    blank4.\nmax_delete([H|T], blank5, blank6).",
+    "blanks_or_options": [
+      "blank1",
+      "blank2",
+      "blank3",
+      "blank4",
+      "blank5",
+      "blank6"
+    ],
+    "correct_answer": "blank1 = Max, blank2 = [H|DT], blank3 = =<, blank4 = !, blank5 = H, blank6 = T",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 13)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "List mapping (squaring elements)",
+    "question_text": "Say we want to write a predicate which receives as input a list of integers, and produces as output a list containing their squares. To obtain such a predicate, the recursive clause should look like:",
+    "code": null,
+    "blanks_or_options": [
+      "a. square([H|T], R):- square(T,R).",
+      "b. square([H|T], Rl, R):- NH is H*H, square(T,[HN|R]).",
+      "c. square([H|T], [NH|R]):- NH is H*H, square(T,R).",
+      "d. square([H|T], [NH|R]):- NH is H*H, square(T, [HN|R])."
+    ],
+    "correct_answer": "c. square([H|T], [NH|R]):- NH is H*H, square(T,R).",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 14)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "List mapping and reversing (squared roots)",
+    "question_text": "Say we want to write a predicate which receives as input a list of integers, and produces as output a list containing their squared roots, in reverse order. To obtain such a predicate, the recursive clause should look like:",
+    "code": null,
+    "blanks_or_options": [
+      "a. square([H|T], R):- square(T,R).",
+      "b. square([H|T], R):- NH is sqrt(H), square(T,[HN|R]).",
+      "c. square([H|T], Rl, R):- NH is sqrt(H), square(T,[HN|R]).",
+      "d. square([H|T], [NH|R]):- NH is sqrt(H), square(T,R)."
+    ],
+    "correct_answer": "d. square([H|T], [NH|R]):- NH is sqrt(H), square(T,R).",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 14)"
+  },
+  {
+    "type": "code_completion",
+    "topic": "Set difference",
+    "question_text": "Complete the predicate below such that it performs the difference of two sets (represented as lists, member is considered known and implemented):",
+    "code": "d([H|T], L, R) :- blank1, !, d(T, L, R).\nd([H|T], L, [H|R]) :- d(T, L, R).\nd([], _, []).",
+    "blanks_or_options": [
+      "blank1"
+    ],
+    "correct_answer": "blank1 = member(H, L)",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 14)"
+  },
+  {
+    "type": "code_completion",
+    "topic": "List manipulation (bubble sort pass)",
+    "question_text": "Fill in the gaps below such as to obtain a predicate which swaps adjacent numbers in a list, if their order is incorrect (the first larger than the second). Use H whenever you need a NEW variable for an element from the list:\n(Test case: `?- one_pass([3,1,4,5,2], R). R=[1,3,4,2,5]; no.` )",
+    "code": "one_pass([H1,H2|T], blank1) :- H1 =< H2, !, one_pass(blank2, R).\none_pass([H1,H2|T], blank3) :- one_pass([H1|T], R).\none_pass(blank4, blank5).\none_pass([], blank6).",
+    "blanks_or_options": [
+      "blank1",
+      "blank2",
+      "blank3",
+      "blank4",
+      "blank5",
+      "blank6"
+    ],
+    "correct_answer": "blank1 = [H1,H2|R], blank2 = T, blank3 = [H2|R], blank4 = [H1], blank5 = [H1], blank6 = []",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 14)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Binary Search Tree",
+    "question_text": "The following predicate is assumed to check if the tree is BST (Binary Search Tree):",
+    "code": "is_BST(nil).\nis_BST(t(t(LL,KL,LR), K, t(RL,KR,RR))) :-\n    KL<K<KR, !,\n    is_BST(t(LL,KL,LR)),\n    is_BST(t(RL,KR,RR)).",
+    "blanks_or_options": [
+      "a. the predicate is incorrect as there is no failure clause",
+      "b. the predicate is incorrect, as the inequality check should consider other keys",
+      "c. the predicate is correct",
+      "d. the predicate is incorrect, as the inequality check should be reversed"
+    ],
+    "correct_answer": "b. the predicate is incorrect, as the inequality check should consider other keys",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 15)"
+  },
+  {
+    "type": "code_completion",
+    "topic": "Binary Search Tree",
+    "question_text": "I want to write a predicate which finds the sum of all leaf nodes in a BST. Complete the partial implementation so that you get a correct predicate:",
+    "code": "sumLeaf(nil, 0).\nsumLeaf(t(K, blank1, blank2), blank3).\nsumLeaf(t(K, L, R), Sum) :-\n    sumLeaf(blank4, SL),\n    sumLeaf(blank5, SR),\n    blank6 is SL + blank7.",
+    "blanks_or_options": [
+      "blank1",
+      "blank2",
+      "blank3",
+      "blank4",
+      "blank5",
+      "blank6",
+      "blank7"
+    ],
+    "correct_answer": "blank1 = nil, blank2 = nil, blank3 = K, blank4 = L, blank5 = R, blank6 = Sum, blank7 = SR",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 15)"
+  },
+  {
+    "type": "code_completion",
+    "topic": "Binary Search Tree",
+    "question_text": "I want to write a predicate which finds the maximum sum on a branch of a BST. Complete the partial implementation so that you get a correct predicate:",
+    "code": "maxSum(blank1, blank2).\nmaxSum(t(K,L,R), blank3) :-\n    maxSum(L, blank4),\n    maxSum(R, blank5),\n    Sum is max(SL, SR) + blank6.",
+    "blanks_or_options": [
+      "blank1",
+      "blank2",
+      "blank3",
+      "blank4",
+      "blank5",
+      "blank6"
+    ],
+    "correct_answer": "blank1 = nil, blank2 = 0, blank3 = Sum, blank4 = SL, blank5 = SR, blank6 = K",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 15)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Binary Search Tree",
+    "question_text": "A predicate to check if a tree is BST (Binary Search Tree) written like: ... where max/2 returns the max key, while min/2 returns the min key (from a tree), is:",
+    "code": "is_BST(nil).\nis_BST(t(L,K,R)) :-\n    max(L, ML),\n    min(R, MR),\n    ML<K<MR.",
+    "blanks_or_options": [
+      "a. incorrect as it only checks the condition in the root",
+      "b. incorrect as K should be compared to the keys in the roots of L and R",
+      "c. incorrect as it has no output argument",
+      "d. correct as it checks the conditions for being BST"
+    ],
+    "correct_answer": "a. incorrect as it only checks the condition in the root",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 16)"
+  },
+  {
+    "type": "code_completion",
+    "topic": "Binary Search Tree",
+    "question_text": "I want to write a predicate which computes the minimum key in a BST. Complete the partial implementation so that you get a correct predicate:",
+    "code": "min(t(K, blank1, _), blank2).\nmin(t(K, L, R), M) :- min(blank3).",
+    "blanks_or_options": [
+      "blank1",
+      "blank2",
+      "blank3"
+    ],
+    "correct_answer": "blank1 = nil, blank2 = K, blank3 = L, M",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 16)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Incomplete Binary Search Tree",
+    "question_text": "The following sequence is assumed to insert a key in an incomplete BST. Choose the most specific answer from below:",
+    "code": "ins(t(_, Key, _), Key) :- !.\nins(t(L, Key1, _), Key) :-\n    Key1 > Key, !,\n    ins(L, Key).\nins(t(_, Key1, R), Key) :-\n    ins(R, Key).",
+    "blanks_or_options": [
+      "a. The predicate is correct.",
+      "b. The predicate is incorrect as it does not treat the case when the incomplete tree (var(T)) is reached.",
+      "c. The predicate is incorrect, as it's missing the output argument",
+      "d. The predicate is incorrect as the second clause must be the first one."
+    ],
+    "correct_answer": "a. The predicate is correct.",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 16)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Incomplete Binary Search Tree",
+    "question_text": "The following code is assumed to collect, in order, the internal nodes with 2 children of an incomplete binary search tree. Choose the most specific answer from below:",
+    "code": "collect_2_children(t(L, _, R), N) :- var(L), !, collect_2_children(R, N).\ncollect_2_children(t(L, _, R), N) :- var(R), !, collect_2_children(L, N).\ncollect_2_children(t(L, Key, R), NN) :-\n    collect_2_children(R, NR),\n    collect_2_children(L, NL),\n    append(NL, [Key|NR], NN).\ncollect_2_children(t(L, _, R), []) :- var(L), var(R), !.",
+    "blanks_or_options": [
+      "a. The predicate is incorrect, as is missing a clause on var(T).",
+      "b. The predicate is correct.",
+      "c. The predicate is incorrect as the clause right subtree is processed before the left one.",
+      "d. The predicate is incorrect as the last clause should be the first one."
+    ],
+    "correct_answer": "d. The predicate is incorrect as the last clause should be the first one.",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 17)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Incomplete Binary Search Tree",
+    "question_text": "The following sequence is assumed to insert a key in an incomplete BST. Choose the most specific answer from below: (variant where the stopping clause is at the bottom)",
+    "code": "ins(t(L, Key1, _), Key) :-\n    Key1 > Key, !,\n    ins(L, Key).\nins(t(_, Key1, R), Key) :-\n    ins(R, Key).\nins(t(_, Key, _), Key) :- !.",
+    "blanks_or_options": [
+      "a. The predicate is incorrect, as it's missing the output argument",
+      "b. The predicate is incorrect as the second clause is missing the comparison Key1 < Key.",
+      "c. The predicate is incorrect as it does not treat the case when the incomplete tree (var(T)) is reached.",
+      "d. The predicate is incorrect as the last clause must be the first one."
+    ],
+    "correct_answer": "d. The predicate is incorrect as the last clause must be the first one.",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 17)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Binary Search Tree",
+    "question_text": "The following code is assumed to collect, in order, the internal nodes with 2 children of a binary search tree. Choose the most specific answer from below:",
+    "code": "collect_2_children(t(L, _, R), NN) :-\n    collect_2_children(L, NL),\n    collect_2_children(R, NR),\n    append(NR, NL, NN).\ncollect_2_children(t(nil, _, R), N) :-\n    collect_2_children(R, N).\ncollect_2_children(t(L, _, nil), N) :-\n    collect_2_children(L, N).\ncollect_2_children(t(nil, _, nil), []).",
+    "blanks_or_options": [
+      "a. The predicate is correct.",
+      "b. The predicate is incorrect, as is missing a clause on nil.",
+      "c. The predicate is incorrect as the clause with 2 recursive calls is not adding the node to the output list",
+      "d. The predicate is incorrect as the last clause should be the first one."
+    ],
+    "correct_answer": "c. The predicate is incorrect as the clause with 2 recursive calls is not adding the node to the output list",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 18)"
+  },
+  {
+    "type": "code_completion",
+    "topic": "Binary Search Tree",
+    "question_text": "I want to write a predicate which computes the maximum key in a BST. Complete the partial implementation so that you get a correct predicate: (using nil)",
+    "code": "max(t(K, _, blank1), blank2).\nmax(t(K, L, R), M) :- max(blank3).",
+    "blanks_or_options": [
+      "blank1",
+      "blank2",
+      "blank3"
+    ],
+    "correct_answer": "blank1 = nil, blank2 = K, blank3 = R, M",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 18)"
+  },
+  {
+    "type": "code_completion",
+    "topic": "Binary Search Tree",
+    "question_text": "I want to write a predicate which replaces a given key in a BST with another key, specified as argument. The predicate should leave the tree unchanged if the searched key is not in the tree. Complete the partial implementation so that you get a correct predicate:",
+    "code": "replace(blank1, _, blank2).\nreplace(K, NK, t(L, K, R), blank3) :- !.\nreplace(K, NK, t(Key, L, R), t(Key, NL, R)) :-\n    K < Key, blank4,\n    replace(K, NK, L, NL).\nreplace(K, NK, t(Key, L, R), t(Key, L, NR)) :-\n    replace(blank5).",
+    "blanks_or_options": [
+      "blank1",
+      "blank2",
+      "blank3",
+      "blank4",
+      "blank5"
+    ],
+    "correct_answer": "blank1 = nil, blank2 = nil, blank3 = t(L, NK, R), blank4 = !, blank5 = K, NK, R, NR",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 19)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Incomplete Binary Search Tree",
+    "question_text": "The following code is assumed to collect, in order, the internal nodes with 2 children of an incomplete binary search tree. Choose the most specific answer from below:",
+    "code": null,
+    "blanks_or_options": [
+      "a. The predicate is incorrect as the last clause should be the first one.",
+      "b. The predicate is correct.",
+      "c. The predicate is incorrect as the right subtree is processed before the left one.",
+      "d. The predicate is incorrect as it is missing a clause on var(T)."
+    ],
+    "correct_answer": "a. The predicate is incorrect as the last clause should be the first one.",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 19)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Binary Tree",
+    "question_text": "The following code is assumed to calculate the internal nodes with 2 children of a binary tree. Choose the most specific answer from below:",
+    "code": "count_2_children(t(L, _, R), NN) :-\n    count_2_children(L, NL),\n    count_2_children(R, NR),\n    NN is NL + NR.\ncount_2_children(t(nil, _, R), N) :-\n    count_2_children(R, N).\ncount_2_children(t(L, _, nil), N) :-\n    count_2_children(L, N).\ncount_2_children(t(nil, _, nil), 0).",
+    "blanks_or_options": [
+      "a. The predicate is incorrect as the clause with 2 recursive calls is not counting the node.",
+      "b. The predicate is incorrect as the last clause should be the first one.",
+      "c. The predicate is incorrect, as is missing a clause on nil.",
+      "d. The predicate is correct."
+    ],
+    "correct_answer": "a. The predicate is incorrect as the clause with 2 recursive calls is not counting the node.",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 20)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Difference Lists / Incomplete BST",
+    "question_text": "The following code is assumed to collect, in order, internal nodes of an incomplete BST using difference lists. Choose the most specific answer from below:",
+    "code": null,
+    "blanks_or_options": [
+      "a. The predicate is incorrect because the pattern adding Key in the third clause must occur in the head of the rule.",
+      "b. The predicate is incorrect because recursive calls in the fourth clause are swapped.",
+      "c. The predicate is correct.",
+      "d. The predicate is incorrect, as it is missing a first clause on var(T)."
+    ],
+    "correct_answer": "a. The predicate is incorrect because the pattern adding Key in the third clause must occur in the head of the rule.",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 20)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Incomplete Binary Search Tree",
+    "question_text": "The following code is assumed to collect, in order, the leaves of a non-empty incomplete BST, using difference lists (argument 2 is the beginning and argument 3 is the end of the difference list). Choose the most specific answer from below:",
+    "code": "collect_leaves(t(L, Key, R), B, [Key|B]) :- var(L), var(R), !.\ncollect_leaves(t(L, _, R), B, E) :-\n    var(R), !,\n    collect_leaves(L, B, E).\ncollect_leaves(t(L, _, R), B, E) :-\n    var(L), !,\n    collect_leaves(R, B, E).\ncollect_leaves(t(L, Key, R), BRez, ERez) :-\n    collect_leaves(R, Int, ERez),\n    collect_leaves(L, BRez, Int).",
+    "blanks_or_options": [
+      "a. The predicate is incorrect, as is missing a first clause on var(T).",
+      "b. The predicate is incorrect as clauses 2 and 3 should occur in the opposite order.",
+      "c. The predicate is incorrect as in the 4th clause the recursive calls are swapped.",
+      "d. The predicate is incorrect because the pattern of adding the leaf key is incorrect."
+    ],
+    "correct_answer": "d. The predicate is incorrect because the pattern of adding the leaf key is incorrect.",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 21)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Incomplete Binary Search Tree",
+    "question_text": "The following sequence is assumed to insert a key in an incomplete BST. Choose the most specific answer from below:",
+    "code": "ins(t(_, Key, _), Key) :- !.\nins(t(L, Key1, R), Key) :-\n    var(R),\n    Key1 > Key, !,\n    ins(L, Key).\nins(t(L, Key1, R), Key) :-\n    var(L),\n    !,\n    ins(R, Key).",
+    "blanks_or_options": [
+      "a. The predicate is incorrect, as it's missing the output argument.",
+      "b. The predicate is incorrect as it does not handle the general case (with both L and R nonvar).",
+      "c. The predicate is incorrect as it does not treat the case when the incomplete tree (var(T)) is reached.",
+      "d. The predicate is incorrect as the third clause is missing the comparison Key1>Key and the first clause must be the last one."
+    ],
+    "correct_answer": "b. The predicate is incorrect as it does not handle the general case (with both L and R nonvar).",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 21)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Incomplete Lists",
+    "question_text": "The following predicate should search for the first occurrence of an element in an incomplete list. It:",
+    "code": "member(X, [X|_]) :- !.\nmember(X, L) :- var(L), !, fail.\nmember(X, [_|T]) :- member(X, T).",
+    "blanks_or_options": [
+      "a. is not correct, because it fails when reaching the variable at the end of the list",
+      "b. is correct, because the condition for reaching the variable at the end of the list is explicit, and contains definitive failure",
+      "c. is not correct, because the clause for reaching the variable at the end of the list is not the first",
+      "d. is not correct, because it never finds the searched element"
+    ],
+    "correct_answer": "c. is not correct, because the clause for reaching the variable at the end of the list is not the first",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 22)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Incomplete Lists",
+    "question_text": "In a search operation in an incomplete list we may use the search predicate in a regular list (member), if we do the following change:",
+    "code": null,
+    "blanks_or_options": [
+      "a. add a last clause to check when reached the final variable: var(V) , fail , ! .",
+      "b. add a first clause to check when reached the final variable: var(V) , fail , ! .",
+      "c. add a first clause to check when reached the final variable: var(V) , ! , fail .",
+      "d. add a last clause to check when reached the final variable: var(V) , ! , fail ."
+    ],
+    "correct_answer": "c. add a first clause to check when reached the final variable: var(V) , ! , fail .",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 22)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Incomplete Lists",
+    "question_text": "The following implementation of the member predicate (for complete lists) does not behave correctly on incomplete lists, because:",
+    "code": "member(X, [X|_]) :- !.\nmember(X, [_|T]) :- member(X, T).",
+    "blanks_or_options": [
+      "a. it is deterministic",
+      "b. it never finds the searched element",
+      "c. it should fail explicitly when the search reaches the variable at the end of the list",
+      "d. it does not have a clause for when the input list becomes []"
+    ],
+    "correct_answer": "c. it should fail explicitly when the search reaches the variable at the end of the list",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 23)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Deep Lists",
+    "question_text": "The predicate below has to verify if the first argument (an element) is present in the second argument (a deep list). The following is true about the correctness of the predicate:",
+    "code": "member(H, [H|_]).\nmember(X, [H|_]) :-\n    member(X, H).\nmember(X, [_|T]) :-\n    member(X, T).\nmember(_, []) :- !, fail.",
+    "blanks_or_options": [
+      "a. it is correct, but the last clause is not necessary",
+      "b. it is correct and all clauses are necessary",
+      "c. it is incorrect, because it searches in the head of the list also",
+      "d. it is incorrect, because it fails when reaching the empty list"
+    ],
+    "correct_answer": "a. it is correct, but the last clause is not necessary",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 23)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Incomplete Lists",
+    "question_text": "The predicate below is intending to search for a given element in an incomplete list (list terminated in a variable). Do do so, we need to do the following:",
+    "code": "member_IL(H, [H|_]).\nmember_IL(X, [_|T]) :-\n    member_IL(X, T).",
+    "blanks_or_options": [
+      "a. add some clause for the empty list",
+      "b. add the following clause member_IL(_, V) :- var(V), !. mandatory as the first clause",
+      "c. add the following clause member_IL(_, V) :- var(V), !, fail. mandatory as the first clause",
+      "d. add the following clause member_IL(_, V) :- var(V), !, fail. anywhere in the code"
+    ],
+    "correct_answer": "c. add the following clause member_IL(_, V) :- var(V), !, fail. mandatory as the first clause",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 24)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Incomplete Deep Lists",
+    "question_text": "The predicate below has to verify if the first argument (an element) is present in the second argument (a deep list). If the second argument is an incomplete deep list (ended in variable, at all levels):",
+    "code": "member(H, [H|_]).\nmember(X, [H|_]) :-\n    member(X, H).\nmember(X, [_|T]) :-\n    member(X, T).",
+    "blanks_or_options": [
+      "a. verifies if the first argument is present in the second argument or else it adds the element at the end of the first incomplete list found in the structure",
+      "b. it adds the element at the end of all the incomplete lists in the structure",
+      "c. it fails",
+      "d. it does the same: verifies if the first argument is present in the second argument"
+    ],
+    "correct_answer": "a. verifies if the first argument is present in the second argument or else it adds the element at the end of the first incomplete list found in the structure",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 25)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Deep Lists",
+    "question_text": "The predicate below has to verify if the first argument (an element) is present in the second argument (a deep list). To make the predicate deterministic, one must:",
+    "code": "member(H, [H|_]).\nmember(X, [H|_]) :-\n    member(X, H).\nmember(X, [_|T]) :-\n    member(X, T).",
+    "blanks_or_options": [
+      "a. add a ! on the first clause and remove the second clause",
+      "b. add a ! on the first clause",
+      "c. add a ! on the first clause and another ! at the end of the second clause",
+      "d. add a ! at the end of the second clause"
+    ],
+    "correct_answer": "c. add a ! on the first clause and another ! at the end of the second clause",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 25)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Prolog Lists",
+    "question_text": "The list [A, B | _] may consist of ...",
+    "code": null,
+    "blanks_or_options": [
+      "a. exactly 2 elements",
+      "b. exactly 3 elements",
+      "c. at least 2 elements",
+      "d. at least 3 elements"
+    ],
+    "correct_answer": "c. at least 2 elements",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 26)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Incomplete Lists",
+    "question_text": "Say we want to write a predicate which adds an element at the end of some incomplete list, given as argument. The predicate should:",
+    "code": null,
+    "blanks_or_options": [
+      "a. traverse the given list, instantiate an additional result variable accordingly when reaching the end of the list, then copy all the input list elements in the result, as recursion returns, to maintain their order",
+      "b. traverse the given list, to reach the variable at the end, then instantiate that variable accordingly",
+      "c. traverse the given list, and add the elements of the input list, one by one, in an additional result argument, as recursion proceeds, making sure to add the element at the end of the result list (when recursion ends)",
+      "d. directly instantiate the variable at the end of the given list, accordingly (no traversal needed)"
+    ],
+    "correct_answer": "b. traverse the given list, to reach the variable at the end, then instantiate that variable accordingly",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 26)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Incomplete Lists",
+    "question_text": "The following predicate should search for the first occurrence of an element in an incomplete list. It: (variant where the var/1 check is first but lacks cut)",
+    "code": "member(X, L) :- var(L), fail.\nmember(X, [X|_]) :- !.\nmember(X, [_|T]) :- member(X, T).",
+    "blanks_or_options": [
+      "a. is not correct, because it never finds the searched element",
+      "b. is not correct, because it is deterministic",
+      "c. is not correct, because backtracking is allowed when reaching the variable at the end of the list",
+      "d. is correct, because the condition for reaching the end of the list is the first, and contains definitive failure"
+    ],
+    "correct_answer": "c. is not correct, because backtracking is allowed when reaching the variable at the end of the list",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 27)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Prolog Loops / Bubble Sort",
+    "question_text": "The following sequence is assumed to be used in a condition-controlled loop (while or repeat-until) bubble sort. Would it be a sound choice (that is, can be bubble sort implemented using it)?",
+    "code": "traverse_once([A,B|T], [B|R]) :-\n    A>=B, !,\n    traverse_once([A|T], R).\ntraverse_once([A|T], R) :-\n    traverse_once(T, R).\ntraverse_once([], []).",
+    "blanks_or_options": [
+      "a. No! It (traverse_once) fails as it cannot reach the clause with the empty list due to patterns in the other clauses.",
+      "b. No! It (traverse_once) fails as fact should come as first clause.",
+      "c. Yes! If properly employed, that is, until no swap occurred in the latest traverse_once.",
+      "d. No! A bubble sort using it might enter an infinite loop in case duplicates exist in the input."
+    ],
+    "correct_answer": "d. No! A bubble sort using it might enter an infinite loop in case duplicates exist in the input.",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 27)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Prolog Loops / Bubble Sort",
+    "question_text": "If the code below uses append with the fact as the first clause, for the input [3,6,2,4,1] what would be the second selection of A and B for swapping (setting B,A) during execution?",
+    "code": "bubbleSort(In, Out) :-\n    append(X, [A,B|Y], In),\n    A>B, !,\n    append(X, [B,A|Y], Int),\n    bubbleSort(Int, Out).\nbubbleSort(In, In).",
+    "blanks_or_options": [
+      "a. A=2, B=4",
+      "b. A=6, B=4",
+      "c. A=3, B=6",
+      "d. A=3, B=2"
+    ],
+    "correct_answer": "d. A=3, B=2",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 28)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Prolog Sorting Algorithms / Selection Sort",
+    "question_text": "If we want a decreasing sorting by selection strategy (below), where max and delete are correct predicates to find the max value, and delete a value from a list respectively, which condition must hold true (choose the most specific one):",
+    "code": "sort(In, [M|Out]) :-\n    max(In, M),\n    delete(M, In, Int),\n    sort(Int, Out).\nsort([], []).",
+    "blanks_or_options": [
+      "a. delete needs to delete the first occurrence of the value from the list",
+      "b. max needs to choose the first occurrence of the largest value from the list",
+      "c. min needs to use a nonstrict inequality",
+      "d. min needs to be implemented with backward recursion"
+    ],
+    "correct_answer": "a. delete needs to delete the first occurrence of the value from the list",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 28)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Prolog Sorting Algorithms / Selection Sort",
+    "question_text": "In a decreasing sorting by selection strategy (below), the max_delete predicate is a stable predicate which correctly deletes the maximal value from the list. If we print Out, what would be the second printed list on input In = [3,2,5,1,5]?",
+    "code": "sort(In, [M|Out]) :-\n    max_delete(M, In, Int),\n    sort(Int, Out).\nsort([], []).",
+    "blanks_or_options": [
+      "a. [5,5]",
+      "b. [5,5]",
+      "c. [1]",
+      "d. [5]"
+    ],
+    "correct_answer": "c. [1]",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 28)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Prolog Sorting Algorithms / Selection Sort",
+    "question_text": "If we want a sorting by selection strategy (below), where min and delete are correct predicates to find the min value, and delete a value from a list respectively, which condition must hold true (choose the most specific one):",
+    "code": "sort(In, [M|Out]) :-\n    min(In, M),\n    delete(M, In, Int),\n    sort(Int, Out).\nsort([], []).",
+    "blanks_or_options": [
+      "a. min needs to use a nonstrict inequality",
+      "b. min needs to choose the first occurrence of the smallest value from the list",
+      "c. min needs to be implemented with backward recursion",
+      "d. delete needs to delete the first occurrence of the value from the list"
+    ],
+    "correct_answer": "d. delete needs to delete the first occurrence of the value from the list",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 29)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Prolog Sorting Algorithms / Selection Sort",
+    "question_text": "In a decreasing sorting by selection strategy (below), the max_delete predicate is a stable predicate which correctly deletes the maximal value from the list. If we print Out, what would be the second printed list on input In = [7,3,5,3,7]?",
+    "code": "sort(In, [M|Out]) :-\n    max_delete(M, In, Int),\n    sort(Int, Out).\nsort([], []).",
+    "blanks_or_options": [
+      "a. [3,3]",
+      "b. [7]",
+      "c. [3]",
+      "d. [7,7]"
+    ],
+    "correct_answer": "c. [3]",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 30)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Prolog Loops / Bubble Sort",
+    "question_text": "The predicate below implements bubble sort (where append/3 has the regular, correct implementation). How many calls does the second append make to get the sorted array for the input [2,3,1,4]:",
+    "code": "bubble_sort(In, Out) :-\n    append(X, [A,B|Y], In),\n    A>B, !,\n    append(X, [B,A|Y], Int),\n    bubble_sort(Int, Out).\nbubble_sort(In, In).",
+    "blanks_or_options": [
+      "a. 4",
+      "b. 5",
+      "c. 2",
+      "d. 3"
+    ],
+    "correct_answer": "c. 2",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 30)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Prolog Loops / Bubble Sort",
+    "question_text": "The predicate below implements bubble sort (where append/3 has the regular, correct implementation). How many calls does the second append make to get the sorted array for the input [2,5,1,3,4]:",
+    "code": "bubble_sort(In, Out) :-\n    append(X, [A,B|Y], In),\n    A>B, !,\n    append(X, [B,A|Y], Int),\n    bubble_sort(Int, Out).\nbubble_sort(In, In).",
+    "blanks_or_options": [
+      "a. 2",
+      "b. 4",
+      "c. 5",
+      "d. 3"
+    ],
+    "correct_answer": "b. 4",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 31)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Prolog Variables / Bubble Sort",
+    "question_text": "The predicate swap can be used for bubble sort. The F variable:",
+    "code": "swap([A,B|T], [B|R], F) :-\n    A>B, !,\n    F=0,\n    swap([A|T], R, F).\nswap([A,B|T], [A|R], F) :-\n    swap([B|T], R, F).\nswap([A], [A], 1) :- !.\nswap([A], [A], 0) :- !.",
+    "blanks_or_options": [
+      "a. must be instantiated in the call, either to 0 or 1",
+      "b. it gets re-instantiated whenever the first clause is reached during the execution",
+      "c. gets instantiated on one of the two stopping conditions",
+      "d. gets instantiated to 0 in the first clause, then maintains its value throughout the execution"
+    ],
+    "correct_answer": "d. gets instantiated to 0 in the first clause, then maintains its value throughout the execution",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 31)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Prolog Loops / Bubble Sort",
+    "question_text": "The predicate below intends to implement bubble sort (where append/3 has the regular, correct implementation). To make it a correct predicate, we should:",
+    "code": "bubble_sort(In, Out) :-\n    append(X, [A,B|Y], In),\n    A>=B, !,\n    append(X, [B,A|Y], Int),\n    bubble_sort(Int, Out).\nbubble_sort(In, In).",
+    "blanks_or_options": [
+      "a. remove the !",
+      "b. have the fact as first clause",
+      "c. make the inequality a strict one",
+      "d. place the ! after the second append"
+    ],
+    "correct_answer": "c. make the inequality a strict one",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 32)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Prolog Loops / Bubble Sort",
+    "question_text": "The predicate below intends to implement bubble sort (where append/3 has the regular, correct implementation). What is wrong?",
+    "code": "bubble_sort(In, Out) :-\n    append(X, [A,B|Y], In),\n    B =< A, !,\n    append(X, [B,A|Y], Int),\n    bubble_sort(Int, Out).\nbubble_sort(In, In).",
+    "blanks_or_options": [
+      "a. it stays forever in the first clause",
+      "b. cannot solve it with append",
+      "c. the ! should be placed after the second append",
+      "d. the ! should be removed"
+    ],
+    "correct_answer": "d. the ! should be removed",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 32)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Prolog Database Manipulation",
+    "question_text": "Which of the following assert sequences can generate the given clause order for the dynamic predicate insect/1:",
+    "code": "insect(ant).\ninsect(bee).\ninsect(moth).\ninsect(fly).\ninsect(mosquito).",
+    "blanks_or_options": [
+      "a. asserta(insect(moth)) -> asserta(insect(bee)) -> assertz(insect(ant)) -> assertz(insect(fly)) -> assertz(insect(mosquito))",
+      "b. assert(insect(mosquito)) -> asserta(insect(fly)) -> assert(insect(moth)) -> asserta(insect(bee)) -> asserta(insect(ant))",
+      "c. assert(insect(moth)) -> asserta(insect(bee)) -> assert(insect(ant)) -> assert(insect(fly)) -> assert(insect(mosquito))",
+      "d. asserta(insect(bee)) -> assert(insect(moth)) -> asserta(insect(ant)) -> assert(insect(fly)) -> assert(insect(mosquito))"
+    ],
+    "correct_answer": "d. asserta(insect(bee)) -> assert(insect(moth)) -> asserta(insect(ant)) -> assert(insect(fly)) -> assert(insect(mosquito))",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 33)"
+  },
+  {
+    "type": "code_completion",
+    "topic": "Prolog Sorting Algorithms / Selection Sort",
+    "question_text": "The predicate below should be a stable predicate to delete the max value from a list. Fill in the blanks for a correct predicate:",
+    "code": "max_delete([X|T], blank1, blank2) :-\n    max_delete(T, M, R),\n    X blank3 M, blank4.\n\nmax_delete([X|T], blank5, blank6).",
+    "blanks_or_options": [
+      "blank1",
+      "blank2",
+      "blank3",
+      "blank4",
+      "blank5",
+      "blank6"
+    ],
+    "correct_answer": "blank1 = M, blank2 = [X|R], blank3 = <, blank4 = !, blank5 = X, blank6 = T",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 33)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Prolog Sorting Algorithms / Insertion Sort",
+    "question_text": "To make the predicate ins_sort/3 stable, we need to:",
+    "code": "ins(X, [], [X]).\nins(X, [H|T], [X,H|T]) :-\n    H>X, !.\nins(X, [H|T], [H|R]) :-\n    ins(X, T, R).\n\nins_sort([A|T], Int, Out) :-\n    ins(A, Int, NewInt),\n    ins_sort(T, NewInt, Out).\nins_sort([], Out, Out).",
+    "blanks_or_options": [
+      "a. nothing, it is stable as it is",
+      "b. swap the order of ins_sort(T, NewInt, Out) and ins(A, Int, NewInt)",
+      "c. change the strict inequality into a nonstrict one",
+      "d. remove the clause for the empty list in ins predicate"
+    ],
+    "correct_answer": "a. nothing, it is stable as it is",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 34)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Prolog Sorting Algorithms / Insertion Sort",
+    "question_text": "To make the predicate ins_sort/2 stable, we need to:",
+    "code": "ins([A|T], B, [A|R]) :-\n    B>A, !,\n    ins(T, B, R).\nins(L, B, [B|L]).\n\nins_sort([A|T], Out) :-\n    ins_sort(T, Int),\n    ins(Int, A, Out).\nins_sort([], []).",
+    "blanks_or_options": [
+      "a. change the strict inequality into a nonstrict one",
+      "b. add a clause for the empty list in ins/3 predicate",
+      "c. swap the order of ins_sort(T, Int) and ins(Int, A, Out)",
+      "d. nothing, it is stable as it is"
+    ],
+    "correct_answer": "d. nothing, it is stable as it is",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 34)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Prolog Sorting Algorithms / Insertion Sort",
+    "question_text": "To make the predicate ins_sort/2 stable, we need to: (variant with X<H)",
+    "code": "ins(X, [], [X]).\nins(X, [H|T], [X,H|T]) :-\n    X<H, !.\nins(X, [H|T], [H|R]) :-\n    ins(X, T, R).\n\nins_sort([A|T], Out) :-\n    ins_sort(T, Int),\n    ins(Int, A, Out).\nins_sort([], []).",
+    "blanks_or_options": [
+      "a. change the strict inequality into a nonstrict one",
+      "b. add a clause for the empty list in ins/3 predicate",
+      "c. swap the order of ins_sort(T, Int) and ins(Int, A, Out)",
+      "d. nothing, it is stable as it is"
+    ],
+    "correct_answer": "a. change the strict inequality into a nonstrict one",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 35)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Prolog Sorting Algorithms / Selection Sort",
+    "question_text": "To make the predicate select_sort/3 stable, we need to: (corrected quiz view)",
+    "code": null,
+    "blanks_or_options": [
+      "a. nothing, it is stable as it is",
+      "b. swap two recursive operations",
+      "c. change the inequality into a nonstrict one",
+      "d. add a clause for the empty list"
+    ],
+    "correct_answer": "a. nothing, it is stable as it is",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 35)"
+  },
+  {
+    "type": "code_completion",
+    "topic": "Graph Cycles (Prolog)",
+    "question_text": "Complete the following predicate to make it find cycles in a graph containing the node X:",
+    "code": "c(X, [ blank1|P]) :- edge(X, Y), c(Y, X, [Y], P).\nc(X, Y, PP, FP) :-\n    edge(blank2, Z),\n    \\+(member(blank3, PP)),\n    c(blank4, [Z|PP], FP).\nc(X, blank5, PP, P) :- reverse(PP, P).",
+    "blanks_or_options": [
+      "blank1",
+      "blank2",
+      "blank3",
+      "blank4",
+      "blank5"
+    ],
+    "correct_answer": "blank1 = X, blank2 = X, blank3 = Z, blank4 = Z, Y, blank5 = X",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 36)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Graph Checking (Prolog)",
+    "question_text": "In an undirected graph represented by its edges (e.g. is_edge(a,b).), the predicate checking from below is assumed to check that each vertex in the graph is possessing a certain property which is soundly checked by the verify(Vertex) predicate. Assuming that verify is correctly implemented, choose the most specific answer from below:",
+    "code": "checking :- is_edge(X,_),\n            not(v(X)),\n            assertz(v(X)),\n            verify(X), !,\n            fail.\nchecking.",
+    "blanks_or_options": [
+      "a. The predicate is correct if the ! is removed.",
+      "b. The predicate is correct as it is.",
+      "c. The predicate is correct if assertz is replaced by asserta.",
+      "d. The predicate is correct if a negation (not) is added in front of (verify)."
+    ],
+    "correct_answer": "d. The predicate is correct if a negation (not) is added in front of (verify).",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 36)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Graph Checking (Prolog)",
+    "question_text": "In an undirected graph represented by its edges (e.g. is_edge(a,b).), the predicate checking from below is assumed to check that each vertex in the graph is possessing a certain property which is soundly checked by the verify(Vertex) predicate. Assuming that verify is correctly implemented, choose the most specific answer from below: (variant with negated verify)",
+    "code": "checking :- is_edge(X,_),\n            not(v(X)),\n            assertz(v(X)),\n            not(verify(X)), !,\n            fail.\nchecking.",
+    "blanks_or_options": [
+      "a. The predicate is correct if assertz is replaced by asserta.",
+      "b. The predicate is correct if the negation (not) in front of (verify) is removed.",
+      "c. The predicate is correct if the ! is removed.",
+      "d. The predicate is correct as it is."
+    ],
+    "correct_answer": "d. The predicate is correct as it is.",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 37)"
+  },
+  {
+    "type": "code_completion",
+    "topic": "Graph Paths (Prolog)",
+    "question_text": "Complete the predicate below such that it finds a path in a graph, having the length smaller than M:",
+    "code": "p(X, Y, M, P) :- p(X, Y, M, [X], P).\np(X, blank1, M, PP, PP) :-\n    length(blank2, L),\n    blank3 < M.\np(X, blank4, M, PP, FP) :-\n    edge(X, Z),\n    \\+(member(blank5, PP)),\n    p(blank6, Y, M, blank7, FP).",
+    "blanks_or_options": [
+      "blank1",
+      "blank2",
+      "blank3",
+      "blank4",
+      "blank5",
+      "blank6",
+      "blank7"
+    ],
+    "correct_answer": "blank1 = X, blank2 = PP, blank3 = L, blank4 = Y, blank5 = Z, blank6 = Z, blank7 = [Z|PP]",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 37)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Graph Construction (Prolog)",
+    "question_text": "In an undirected graph represented by its edges (e.g. is_edge(a,b).), the predicate constructing from below is assumed to build an additional knowledge base of good nodes (good(Node)) containing all nodes of the graph for which a certain property holds true. Assuming that verify(Vertex) predicate is correctly implemented, and it succeeds if and only if vertex is possessing the underlying property, choose the most specific answer from below:",
+    "code": "constructing :- is_edge(X,_),\n                not(v(X)),\n                assertz(v(X)),\n                not(verify(X)),\n                assertz(good(X)),\n                fail.\nconstructing.",
+    "blanks_or_options": [
+      "a. The predicate is correct as it is.",
+      "b. The predicate is correct if the predicate verify is NOT negated (not(verify(X)) replaced by verify(X)).",
+      "c. The predicate is correct if the ! is added after not(verify(X)).",
+      "d. The predicate is correct if assertz is replaced by asserta."
+    ],
+    "correct_answer": "b. The predicate is correct if the predicate verify is NOT negated (not(verify(X)) replaced by verify(X)).",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 38)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Prolog List Member",
+    "question_text": "The predicate below verifies if the first argument (an element) is present in the second argument (a list). To have a non-deterministic call, we need to:",
+    "code": "member(H, [H|_]).\nmember(X, [_|T]) :-\n    member(X, T).",
+    "blanks_or_options": [
+      "a. add a clause for the empty list",
+      "b. make the initial call with the first argument free variable",
+      "c. add a cut in the first clause",
+      "d. change the order of the clauses"
+    ],
+    "correct_answer": "Unresolved in the source image: the selected option b is visibly marked incorrect; no corrected option is shown on the page.",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 39)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Prolog List Deletion",
+    "question_text": "The predicate below deletes one element from a list, non-deterministically. To change it into a deterministic one, we need to:",
+    "code": "delete(H, [H|T], T).\ndelete(X, [H|T], [H|R]) :-\n    delete(X, T, R).",
+    "blanks_or_options": [
+      "a. add a fact on the empty list and a cut in the first clause",
+      "b. add a cut in the first clause",
+      "c. add a fact on the empty list and add a recursive call in the (currently) first clause",
+      "d. add a recursive call in the first clause"
+    ],
+    "correct_answer": "b. add a cut in the first clause",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 39)"
+  },
+  {
+    "type": "code_tracing",
+    "topic": "Prolog list manipulation, minimum element, tracing, I/O",
+    "question_text": "The code below deletes the minimum element in a list. We executed it on list L, which we know to look as L=[6,......]. Given that, according to the specific write/writeln statements, the execution displays what you see below, how did the initial list L look like? (variant with 5 as min)",
+    "code": "del_min([H|T], [H|R], M) :-\n    del_min(T,R,M),\n    M=<H, !,\n    write(R), write(' '), writeln(M).\ndel_min([H|T], T, H) :-\n    write(T), write(' '), writeln(H).\n\n?-L=[6,...], del_min(L,New_List,Min).",
+    "blanks_or_options": null,
+    "correct_answer": "[6,2,3,4,2,4,5]",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 40)"
+  },
+  {
+    "type": "code_tracing",
+    "topic": "Prolog list manipulation, minimum element, tracing, I/O",
+    "question_text": "The code below deletes the maximum element in a list. We executed it on list L, which we know to look as L=[7,......]. Given that, according to the specific write/writeln statements, the execution displays what you see below, how did the initial list L look like?",
+    "code": "del_max([H|T], [H|R], M) :-\n    del_max(T, R, M),\n    M > H, !,\n    write(R), write(' '), writeln(M).\ndel_max([H|T], T, H) :-\n    write(T), write(' '), writeln(H).\n\n?-L=[7,...], del_max(L,New_List,Min).\n\n% Execution output:\n% [] 6\n% [6] 7\n% [7, 6] 8\n% [7, 6] 8\n% [5, 8, 7, 6] 8\n% [5, 8, 7, 6] 8\n% [4, 5, 8, 7, 6] 8",
+    "blanks_or_options": null,
+    "correct_answer": "[7, 4, 8, 5, 8, 7, 6]",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 41)"
+  },
+  {
+    "type": "code_tracing",
+    "topic": "Prolog list manipulation, minimum element, tracing, I/O",
+    "question_text": "The code below deletes the minimum element in a list. We executed it on list L, which we know to look as L=[8,......]. Given that, according to the specific write/writeln statements, the execution displays what you see below, how did the initial list L look like? (variant with 8 as start)",
+    "code": "del_min([H|T], [H|R], M) :-\n    del_min(T,R,M),\n    M=<H, !,\n    write(R), write(' '), writeln(M).\ndel_min([H|T], T, H) :-\n    write(T), write(' '), writeln(H).\n\n?-L=[8,...], del_min(L,New_List,Min).",
+    "blanks_or_options": null,
+    "correct_answer": "[8, 4, 1, 3, 1, 6, 8]",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 41)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Prolog complexity / List concatenation",
+    "question_text": "The predicates below are concatenating 2 and 3 lists, respectively. If the lists in append3 have lengths l1, l2 and l3, respectively, then append3 takes:",
+    "code": "append([H|T], L, [H|R]) :-\n    append(T, L, R).\nappend([], L, L).\n\nappend3(A, B, C, R) :-\n    append(B, C, P),\n    append(A, P, R).",
+    "blanks_or_options": [
+      "a. O(l1+l2+l3)",
+      "b. O(l1+l2)",
+      "c. O(2l1+l2)",
+      "d. O(l1+2l2)"
+    ],
+    "correct_answer": "b. O(l1+l2)",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 42)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Difference Lists",
+    "question_text": "Alegeți întrebarea care adaugă elementul 'a' la sfârșitul unei liste diferență ce conține elementele 1, 2 și 3.",
+    "code": "q(X, SL, [X|EL], SL, EL).",
+    "blanks_or_options": [
+      "a. ?-q(a, [1,2,3], _, RS, RE).",
+      "b. ?-q(a, [1,2,3], [], RS, RE).",
+      "c. ?-q(a, [1,2,3], _, _, RE).",
+      "d. ?-q(a, [1,2,3|L], L, RS, [])."
+    ],
+    "correct_answer": "d. ?-q(a, [1,2,3|L], L, RS, []).",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 43)"
+  },
+  {
+    "type": "code_completion",
+    "topic": "Graph Paths (Prolog)",
+    "question_text": "Completați predicatul astfel încât să găsească un drum într-un graf orientat cu lungimea mai mare decât M.",
+    "code": "p(X, Y, M, P) :- p(X, Y, M, blank1, blank2).\np(X, X, M, PP, PP) :-\n    length(blank3, L),\n    L blank4 M.\np(X, Y, M, PP, FP) :-\n    edge(X, Z),\n    not(member(blank5, PP)),\n    p(blank6, Y, M, blank7, FP).",
+    "blanks_or_options": [
+      "blank1",
+      "blank2",
+      "blank3",
+      "blank4",
+      "blank5",
+      "blank6",
+      "blank7"
+    ],
+    "correct_answer": "blank1 = [X], blank2 = P, blank3 = PP, blank4 = >, blank5 = Z, blank6 = Z, blank7 = [Z|PP]",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 43)"
+  },
+  {
+    "type": "code_completion",
+    "topic": "Difference Lists / Binary Tree Traversals",
+    "question_text": "Completați predicatul de mai jos astfel încât să traverseze arborele în post-ordine folosind liste diferență.",
+    "code": "p_dl(nil, blank1, blank2).\np_dl(t(K,L,R), blank3, blank4) :- p_dl(L, blank5), p_dl(R, blank6).",
+    "blanks_or_options": [
+      "blank1",
+      "blank2",
+      "blank3",
+      "blank4",
+      "blank5",
+      "blank6"
+    ],
+    "correct_answer": "blank1 = R, blank2 = R, blank3 = LS, blank4 = LE, blank5 = LS, ML, blank6 = ML, [K|LE]",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 44)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Difference Lists",
+    "question_text": "Predicatul de mai jos trebuie să inverseze o listă folosind liste diferență. Ce trebuie modificat?",
+    "code": "reverse([], _, _).\nreverse([H|T], Rs, Re) :- reverse(T, Rs, [H|Re]).",
+    "blanks_or_options": [
+      "a. Schimbă ordinea clauzelor.",
+      "b. Modifică clauza 2 în: reverse([H|T], Rs, [H|Re]) :- reverse(T, Rs, Re). și clauza 1 în: reverse([], L, L).",
+      "c. Modifică clauza 2 în: reverse([H|T], Rs, Re) :- reverse(T, Rs, [H|Re]). și clauza 1 în: reverse([], L, L).",
+      "d. Modifică clauza 1 în: reverse([], L, L)."
+    ],
+    "correct_answer": "c. Modifică clauza 2 în: reverse([H|T], Rs, Re) :- reverse(T, Rs, [H|Re]). și clauza 1 în: reverse([], L, L).",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 44)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Prolog Database Manipulation",
+    "question_text": "Se dă următoarea secvență de întrebări. Cum va arăta baza de cunoștințe după execuția celor 2 întrebări?",
+    "code": "?- assertz(n(1)), assertz(n(2)), asserta(n(3)).\n?- retract(n(X)), !, fail.",
+    "blanks_or_options": [
+      "a. n(1).\nn(2).",
+      "b. n(2).\nn(3).",
+      "c. n(2).\nn(1).",
+      "d. Nimic"
+    ],
+    "correct_answer": "a. n(1).\nn(2).",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 44)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Difference Lists",
+    "question_text": "Se dă predicatul de mai jos. Care este răspunsul la următoarea întrebare:",
+    "code": "q(X, SL, [X|EL], SL, EL).\n\n?- q(3, [1,2,3|L], L, SL, []).",
+    "blanks_or_options": [
+      "a. L = [3], SL = [1,2,3]",
+      "b. L = [3], SL = [1,2,3,3]",
+      "c. SL = [1,2,3,3]",
+      "d. false"
+    ],
+    "correct_answer": "b. L = [3], SL = [1,2,3,3]",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 45)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Graph Paths (Prolog)",
+    "question_text": "Predicatul de mai jos trebuie să găsească primul drum simplu (și doar primul) între 2 noduri din graf (reprezentat cu predicate edge). Ce trebuie modificat?",
+    "code": "path(X, X, PP, PP).\npath(X, Y, Path, Res) :-\n    edge(X, Z),\n    not(member(Z, Path)),\n    path(Z, Y, [Z|Path], Res).",
+    "blanks_or_options": [
+      "a. Modifică clauza 1 în: path(X,X,P,P). și clauza 2 în: path(X,Y,Path,Res):-edge(X,Z),not(member(Z,Path)),path(Z,Y,[Z|Path],Res).",
+      "b. Modifică clauza 2 în: path(X,Y,Path,Res):-edge(X,Z),not(member(Z,Path)),path(Z,Y,[Z|Path],Res).",
+      "c. Modifică clauza 2 în: path(X,Y,Path,Res):-edge(X,Z),not(member(Z,Path)),path(Z,Y,[Z|Path],Res), !.",
+      "d. Modifică clauza 1 în: path(X,X,PP,PP)."
+    ],
+    "correct_answer": "c. Modifică clauza 2 în: path(X,Y,Path,Res):-edge(X,Z),not(member(Z,Path)),path(Z,Y,[Z|Path],Res), !.",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 45)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Prolog List Manipulation",
+    "question_text": "The following predicate should remove duplicates from a list. Is it correct? If not, choose the necessary corrections:",
+    "code": "rem([H|T], R) :- member(H, T), !, rem(T, R).\nrem([H|T], R) :- rem(T, R).\nrem([], []).",
+    "blanks_or_options": [
+      "a. Not correct, change clause 1 to: rem([H|T], [H|R]) :- member(H, T), rem(T, R).",
+      "b. Not correct, change clause 2 head to: rem([H|T], [H|R]).",
+      "c. It is correct.",
+      "d. Not correct, change clause 1 head to: rem([H|T], [H|R])."
+    ],
+    "correct_answer": "b. Not correct, change clause 2 head to: rem([H|T], [H|R]).",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 45)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Prolog List Manipulation",
+    "question_text": "Given the predicate below, how many solutions (i.e. corresponding to 'yes' answers) does the following query have:",
+    "code": "s([H|T], L, [H|R]) :- s(T, L, R).\ns([], R, R).\n\n?- s(_, B, [1,2,3,4]).",
+    "blanks_or_options": [
+      "a. 5",
+      "b. 0",
+      "c. 4",
+      "d. 1"
+    ],
+    "correct_answer": "a. 5",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 45)"
+  },
+  {
+    "type": "code_completion",
+    "topic": "Difference Lists / Binary Tree Traversals",
+    "question_text": "Completați predicatul de mai jos astfel încât să traverseze arborele în pre-ordine folosind liste diferență.",
+    "code": "p_dl(nil, blank1, blank2).\np_dl(t(K,L,R), blank3, blank4) :- p_dl(L, blank5), p_dl(R, blank6).",
+    "blanks_or_options": [
+      "blank1",
+      "blank2",
+      "blank3",
+      "blank4",
+      "blank5",
+      "blank6"
+    ],
+    "correct_answer": "blank1 = T, blank2 = T, blank3 = [K|LS], blank4 = LE, blank5 = LS, ML, blank6 = ML, LE",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 46)"
+  },
+  {
+    "type": "code_completion",
+    "topic": "Graph Cycles (Prolog)",
+    "question_text": "Completați predicatul astfel încât să găsească ciclurile dintr-un graf care încep cu nodul X.",
+    "code": "c(X, [ blank1|P]) :- arc(X, Y), c(Y, X, [Y], P).\nc(X, Y, PP, FP) :-\n    arc(blank2, Z),\n    not(member(blank3, PP)),\n    c(blank4, [Z|PP], FP).\nc(X, blank5, PP, P) :- reverse(PP, P).",
+    "blanks_or_options": [
+      "blank1",
+      "blank2",
+      "blank3",
+      "blank4",
+      "blank5"
+    ],
+    "correct_answer": "blank1 = X, blank2 = X, blank3 = Z, blank4 = Z, Y, blank5 = X",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 47)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Difference Lists",
+    "question_text": "Predicatul de mai jos trebuie să inverseze o listă folosind liste diferență. Ce trebuie modificat? (correct quiz view)",
+    "code": "reverse([], _, _).\nreverse([H|T], [H|Rs], Re) :- reverse(T, Rs, Re).",
+    "blanks_or_options": [
+      "a. Schimbă ordinea clauzelor.",
+      "b. Modifică clauza 2 în reverse([H|T], Rs, [H|Re]) :- reverse(T, Rs, Re). și clauza 1 în reverse([], L, L).",
+      "c. Modifică clauza 2 în reverse([H|T], Rs, Re) :- reverse(T, Rs, [H|Re]). și clauza 1 în reverse([], L, L).",
+      "d. Modifică clauza 1 în reverse([], L, L)."
+    ],
+    "correct_answer": "c. Modifică clauza 2 în reverse([H|T], Rs, Re) :- reverse(T, Rs, [H|Re]). și clauza 1 în reverse([], L, L).",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 47)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Prolog Database Manipulation",
+    "question_text": "Se dă următoarea secvență de întrebări. Cum va arăta baza de cunoștințe după execuția celor 2 întrebări? (correct quiz view)",
+    "code": "?- assertz(n(1)), assertz(n(2)), asserta(n(3)).\n?- retract(n(X)), !, fail.",
+    "blanks_or_options": [
+      "a. n(1).\nn(2).",
+      "b. n(2).\nn(3).",
+      "c. n(2).\nn(1).",
+      "d. Nimic"
+    ],
+    "correct_answer": "a. n(1).\nn(2).",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 47)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Graph Traversals (Prolog)",
+    "question_text": "You are given the predicate below and the example graph (undirected, edge-clause form, nodes appear in lexicographic order). What will the predicate base look like after the execution of: ?- d(a).",
+    "code": "d(X) :- asserta(vert(X)), edge(X, Y), \\+(vert(Y)), d(Y).",
+    "blanks_or_options": [
+      "a. vert(a), vert(b), vert(c), vert(d), vert(f), vert(e)",
+      "b. vert(d), vert(c), vert(b), vert(a)",
+      "c. vert(e), vert(f), vert(d), vert(c), vert(b), vert(a)",
+      "d. vert(a), vert(b), vert(c)"
+    ],
+    "correct_answer": "c. vert(e), vert(f), vert(d), vert(c), vert(b), vert(a)",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 48)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Difference Lists",
+    "question_text": "Correct the predicate below such that it can convert both complete and incomplete lists into a diff list:",
+    "code": "convert([], E, E).\nconvert([H|T], S, E) :- convert(T, [H|S], E).",
+    "blanks_or_options": [
+      "a. change first clause to convert(L, E, E) :- var(L), !. and second clause to convert([H|T], S, E) :- convert(T, S, [H|E]).",
+      "b. add as first clause convert(L, E, E) :- var(L), !. and correct last clause to convert([H|T], [H|S], E) :- convert(T, S, E).",
+      "c. add as first clause convert(L, E, E) :- var(L), !. and correct second clause to convert([H|T], S, E) :- convert(T, S, [H|E]).",
+      "d. change first clause to convert(L, E, E) :- var(L), !."
+    ],
+    "correct_answer": "b. add as first clause convert(L, E, E) :- var(L), !. and correct last clause to convert([H|T], [H|S], E) :- convert(T, S, E).",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 48)"
+  },
+  {
+    "type": "code_completion",
+    "topic": "Difference Lists / Binary Tree Traversals",
+    "question_text": "Complete the predicate below to perform the inorder traversal, using difference lists.",
+    "code": "inord_dl(nil, blank1, blank2).\ninord_dl(t(K,L,R), blank3, blank4) :- inord_dl(L, blank5), inord_dl(R, blank6).",
+    "blanks_or_options": [
+      "blank1",
+      "blank2",
+      "blank3",
+      "blank4",
+      "blank5",
+      "blank6"
+    ],
+    "correct_answer": "blank1 = L, blank2 = L, blank3 = LS, blank4 = LE, blank5 = LS, [K|ML], blank6 = ML, LE",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 48)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Prolog List Deletion",
+    "question_text": "The predicate below deletes the first occurrence of an element from a list. Choose the correct modification such that the resulting predicate deletes all occurrences of the element from the list:",
+    "code": "d(X, [X|T], R) :- !.\nd(X, [H|T], [H|R]) :- d(X, T, R).\nd(_, [], []).",
+    "blanks_or_options": [
+      "a. Clause 2 should become d(X, [ _|T], T).",
+      "b. Clause 1 should become d(X, [X|T], [X|R]) :- !, d(X, T, R).",
+      "c. Clause 2 should become d(X, [ _|T], R) :- d(X, T, R).",
+      "d. Clause 1 should become d(X, [X|T], R) :- !, d(X, T, R)."
+    ],
+    "correct_answer": "d. Clause 1 should become d(X, [X|T], R) :- !, d(X, T, R).",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 49)"
+  },
+  {
+    "type": "code_completion",
+    "topic": "Prolog List Manipulation",
+    "question_text": "I want to write a predicate which replaces the first (and only the first) occurrence of element Old with element New, in a list. Help me complete the predicate below to achieve this task:",
+    "code": "replace(Old, New, [Old|T], blank1) :- blank2.\nreplace(Old, New, [H|T], [H|R]) :- replace(Old, New, T, R).\nreplace(_, _, [], []).",
+    "blanks_or_options": [
+      "blank1",
+      "blank2"
+    ],
+    "correct_answer": "blank1 = [New|T], blank2 = !",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 50)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Prolog List Manipulation",
+    "question_text": "Given the predicate below, what is the answer to the query:",
+    "code": "f([H|T], Acc, R) :- f(T, [H|Acc], R).\nf([], R, R).\n\n?- f([1,2,3], [4,5], R).",
+    "blanks_or_options": [
+      "a. yes, R=[4,5,1,2,3]",
+      "b. yes, R=[1,2,3,4,5]",
+      "c. yes, R=[3,2,1,4,5]",
+      "d. yes, R=[4,5,3,2,1]",
+      "e. no"
+    ],
+    "correct_answer": "c. yes, R=[3,2,1,4,5]",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 50)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Set Operations (Prolog)",
+    "question_text": "The following predicate performs the union of two sets (represented as lists, member is considered known and implemented). Select from the alternatives below the one which correctly modifies the predicate such that it performs the intersection of two sets, instead of the union:",
+    "code": "u([H|T], L, R) :- member(H, L), !, u(T, L, R).\nu([H|T], L, [H|R]) :- u(T, L, R).\nu([], L, L).",
+    "blanks_or_options": [
+      "a. Change clause 1 head to: u([H|T], L, [H|R])",
+      "b. Change clause 3 to: u([], _, [])",
+      "c. Change clause 1 head to: u([H|T], L, [H|R]), the head of clause 2 to: u([H|T], L, R) and change clause 3 to: u([], _, [])",
+      "d. Change clause 1 body to: \\+ member(H, L), !, u(T, L, R)"
+    ],
+    "correct_answer": "c. Change clause 1 head to: u([H|T], L, [H|R]), the head of clause 2 to: u([H|T], L, R) and change clause 3 to: u([], _, [])",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 50)"
+  },
+  {
+    "type": "code_completion",
+    "topic": "Prolog Sorting Algorithms / Insertion Sort",
+    "question_text": "The following predicate should insert an element in an ordered list. Fill in the gaps to complete its specification:",
+    "code": "insert_ord(X, [H|T], blank1) :-\n    X blank2 H, !,\n    insert_ord(X, T, R).\ninsert_ord(X, T, blank3).",
+    "blanks_or_options": [
+      "blank1",
+      "blank2",
+      "blank3"
+    ],
+    "correct_answer": "blank1 = [H|R], blank2 = >=, blank3 = [X|T]",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 51)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Set Operations (Prolog)",
+    "question_text": "The following predicate performs the intersection of two sets (represented as lists, member is considered known and implemented). Select from the alternatives below the one which correctly modifies the predicate such that it performs the difference of two sets, instead of the intersection:",
+    "code": "i([H|T], L, [H|R]) :- member(H, L), !, i(T, L, R).\ni([H|T], L, R) :- i(T, L, R).\ni([], _, []).",
+    "blanks_or_options": [
+      "a. Change clause 3 to: i([], L, L).",
+      "b. Change clause 1 body to: \\+ member(H, L), !, i(T, L, R).",
+      "c. Change clause 1 head to: i([H|T], L, R)",
+      "d. Change clause 1 head to: i([H|T], L, R) and clause 3 to: i([], L, L)."
+    ],
+    "correct_answer": "b. Change clause 1 body to: \\+ member(H, L), !, i(T, L, R).",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 52)"
+  },
+  {
+    "type": "code_completion",
+    "topic": "Prolog List Manipulation",
+    "question_text": "I want to write a predicate which replaces all the occurrences of element Old with element New, in a list. Help me complete the predicate below to achieve this task:",
+    "code": "replace_all(Old, New, [Old|T], blank1) :- replace_all(Old, New, T, R).\nreplace_all(Old, New, [H|T], blank2) :- replace_all(Old, New, T, R).\nreplace_all(_, _, [], []).",
+    "blanks_or_options": [
+      "blank1",
+      "blank2"
+    ],
+    "correct_answer": "blank1 = [New|R], blank2 = [H|R]",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 52)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Prolog List Manipulation",
+    "question_text": "Given the predicate below, what is the answer to the query? (correct quiz view)",
+    "code": "f([H|T], Acc, R) :- f(T, [H|Acc], R).\nf([], R, R).\n\n?- f([1,2,3], [4,5], R).",
+    "blanks_or_options": [
+      "a. yes, R=[1,2,3,4,5]",
+      "b. yes, R=[3,2,1,4,5]",
+      "c. yes, R=[4,5,1,2,3]",
+      "d. yes, R=[4,5,3,2,1]",
+      "e. no"
+    ],
+    "correct_answer": "b. yes, R=[3,2,1,4,5]",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 52)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Incomplete Lists",
+    "question_text": "I want to write a predicate which searches for an element in an incomplete list. Choose the correct option to complete the code below:",
+    "code": "search_il(X, [_|T]) :- search_il(X, T).",
+    "blanks_or_options": [
+      "a. Add as first two clauses: search_il(X, L) :- var(L), !. and search_il(X, [X|_]) :- !.",
+      "b. Add as first clause: search_il(X, L) :- var(L), !, fail.",
+      "c. Add as first clause: search_il(X, [X|_]).",
+      "d. Add as first two clauses: search_il(X, L) :- var(L), !, fail. and search_il(X, [X|_])."
+    ],
+    "correct_answer": "d. Add as first two clauses: search_il(X, L) :- var(L), !, fail. and search_il(X, [X|_]).",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 53)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Incomplete Binary Search Tree",
+    "question_text": "The following predicate searches for a certain key in an incomplete BST. How do we have to alter the predicate such that it performs insertion, instead of search, in an incomplete BST?",
+    "code": "search_it(_, T) :- var(T), !, fail.\nsearch_it(Key, t(Key, _, _)) :- !.\nsearch_it(Key, t(K, L, R)) :- Key < K, !, search_it(Key, L).\nsearch_it(Key, t(_, _, R)) :- search_it(Key, R).",
+    "blanks_or_options": [
+      "a. Change the first clause to: search_it(Key, T) :- var(T), !, T = t(Key, _, _), fail.",
+      "b. Remove the first clause and change the second clause to: search_it(Key, T) :- var(T), T = t(Key, _, _).",
+      "c. Remove the first clause",
+      "d. Change the first clause to: search_it(Key, T) :- var(T), !, T = t(Key, _, _), fail."
+    ],
+    "correct_answer": "c. Remove the first clause",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 53)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Incomplete Lists",
+    "question_text": "Următorul predicat verifică dacă un element există într-o listă completă. Modificați predicatul astfel încât să verifice dacă un element există într-o listă incompletă:",
+    "code": "m(X, [X|_]) :- !.\nm(X, [_|T]) :- m(X, T).",
+    "blanks_or_options": [
+      "a. Add as first clause: m(_, L) :- var(L), !, fail.",
+      "b. Add as first clause: m(_, L) :- var(L), !.",
+      "c. Add as first clause: m(_, L) :- var(L), fail.",
+      "d. Add as first clause: m(_, L) :- var(L), !, fail. and delete '!' from clause two."
+    ],
+    "correct_answer": "a. Add as first clause: m(_, L) :- var(L), !, fail.",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 54)"
+  },
+  {
+    "type": "code_completion",
+    "topic": "Incomplete Binary Trees",
+    "question_text": "Complete the following predicate to compute the height of an incomplete binary tree:",
+    "code": "height(T, 0) :- blank1, blank2.\nheight(t(_, L, R), H) :-\n    height(blank3, HL), height(blank4, HR), max(blank5, blank6, HH),\n    blank7 is blank8 + 1.",
+    "blanks_or_options": [
+      "blank1",
+      "blank2",
+      "blank3",
+      "blank4",
+      "blank5",
+      "blank6",
+      "blank7",
+      "blank8"
+    ],
+    "correct_answer": "blank1 = var(T), blank2 = !, blank3 = L, blank4 = R, blank5 = HL, blank6 = HR, blank7 = H, blank8 = HH",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 55)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Incomplete Binary Search Tree",
+    "question_text": "The following predicate searches for a certain key in a complete BST. How do we have to alter the predicate such that it performs insertion, instead of search, in an incomplete BST?",
+    "code": "search_it(Key, t(Key, _, _)) :- !.\nsearch_it(Key, t(K, L, R)) :- Key < K, !, search_it(Key, L).\nsearch_it(Key, t(_, _, R)) :- search_it(Key, R).",
+    "blanks_or_options": [
+      "a. Change the first clause to: search_it(Key, T) :- var(Key), !, T = t(Key, _, _).",
+      "b. Do nothing.",
+      "c. Change the first clause to: search_it(Key, T) :- var(T), !.",
+      "d. Add, as first clause: search_it(Key, T) :- var(T), !, T = t(Key, _, _)."
+    ],
+    "correct_answer": "b. Do nothing.",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 55)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Incomplete Lists",
+    "question_text": "The following predicate has to insert an element at the end of an incomplete list (if it is already in the list, it doesn't get added). Choose the right variant:",
+    "code": "insert_il(X, T) :- insert_il(X, T).",
+    "blanks_or_options": [
+      "a. Add, as first clause: insert_il(X, L) :- var(L), !, fail.",
+      "b. Add, as first two clauses: insert_il(X, L) :- var(L), !, L = [X|_]. and insert_il(X, [X|_]) :- !.",
+      "c. Add, as first clause: insert_il(X, [X|_]).",
+      "d. Add, as first clause: insert_il(X, [X|_]) :- !."
+    ],
+    "correct_answer": "b. Add, as first two clauses: insert_il(X, L) :- var(L), !, L = [X|_]. and insert_il(X, [X|_]) :- !.",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Pages 56-57)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Incomplete Lists",
+    "question_text": "Avem următorul predicat. Câte răspunsuri de yes/true primesc la întrebarea: ?- X=3, s(X, [3,3,3|_]).",
+    "code": "s(_, L) :- var(L), !, fail.\ns(X, [X|_]).\ns(X, [_|T]) :- s(X, T).",
+    "blanks_or_options": [
+      "a. 1",
+      "b. infinit",
+      "c. 3",
+      "d. 4"
+    ],
+    "correct_answer": "c. 3",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 57)"
+  },
+  {
+    "type": "code_completion",
+    "topic": "Deep Lists",
+    "question_text": "Complete the following predicate such that it computes the depth of a deep list:",
+    "code": "d([], 1).\nd([H|T], D) :- atomic(H), blank1, d(blank2, blank3).\nd([H|T], D) :-\n    d(H, D1), d(T, D2), D11 is blank4,\n    max(blank5, blank6, D).",
+    "blanks_or_options": [
+      "blank1",
+      "blank2",
+      "blank3",
+      "blank4",
+      "blank5",
+      "blank6"
+    ],
+    "correct_answer": "blank1 = !, blank2 = T, blank3 = D, blank4 = D1 + 1, blank5 = D11, blank6 = D2",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 57)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Prolog Lists",
+    "question_text": "Avem următorul predicat. Câte răspunsuri de yes/true primesc la întrebarea: ?- X=3, s(X, [3,3,3]). (complete list)",
+    "code": "s(_, L) :- var(L), !, fail.\ns(X, [X|_]) :- !.\ns(X, [_|T]) :- s(X, T).",
+    "blanks_or_options": [
+      "a. 1",
+      "b. infinit",
+      "c. 3",
+      "d. 0"
+    ],
+    "correct_answer": "a. 1",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 58)"
+  },
+  {
+    "type": "code_completion",
+    "topic": "Incomplete Deep Lists",
+    "question_text": "Completați predicatul astfel încât să aplatizeze o listă adâncă incompletă:",
+    "code": "flatten_il(L, blank1) :- var(L), !.\nflatten_il([H|T], blank2) :- atomic(H), !, flatten_il(blank3, R).\nflatten_il([H|T], blank4) :-\n    flatten_il(H, blank5), flatten_il(T, blank6), append(R1, R2, blank7).",
+    "blanks_or_options": [
+      "blank1",
+      "blank2",
+      "blank3",
+      "blank4",
+      "blank5",
+      "blank6",
+      "blank7"
+    ],
+    "correct_answer": "blank1 = L, blank2 = [H|R], blank3 = T, blank4 = R, blank5 = R1, blank6 = R2, blank7 = R",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 58)"
+  },
+  {
+    "type": "multiple_choice",
+    "topic": "Deep Lists / Nondeterminism",
+    "question_text": "Următorul predicat verifică dacă un element există într-o listă completă. Modificați predicatul astfel încât să verifice dacă un element există într-o listă adâncă și să fie nedeterminist:",
+    "code": "m(X, [X|_]) :- !.\nm(X, [_|T]) :- m(X, T).",
+    "blanks_or_options": [
+      "a. Adaugă clauza: m(X, [H|_]) :- m(X, H). și șterge '!' din prima clauză",
+      "b. Schimbă a doua clauză în: m(X, [H|T]) :- m(X, H), !, m(X, T).",
+      "c. Schimbă a doua clauză în: m(X, [H|T]) :- m(X, H); m(X, T). și șterge '!' din prima clauză",
+      "d. Adaugă între prima și a doua clauză: m(X, [H|_]) :- m(X, H)."
+    ],
+    "correct_answer": "a. Adaugă clauza: m(X, [H|_]) :- m(X, H). și șterge '!' din prima clauză",
+    "source": "RASPUNSURI_BUNE_pl.pdf (Page 58)"
+  }
+]

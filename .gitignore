@@ -1,0 +1,66 @@
+node_modules/
+.wrangler/
+.omx/
+wrangler.toml
+public/index.html
+functions/api/d8f3k9x2.js
+*.md
+
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Vector database (large binary)
+chroma_db/
+
+# Generated quiz database (regenerate with extract_everything.py)
+app/pdf_progress.json
+app/telemetry.db
+
+# Course PDFs — too large for GitHub
+Curs/
+
+# Exam examples — contains personal screenshots/PDFs
+ExempleQuiz/
+
+# Environment variables / secrets
+.env
+.env.*
+*.env
+secrets.json
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
+
+# Logs
+*.log
+
+# Compiled binaries
+a.out
+*.out
+*.o
+
+# IDE / editor config
+highlighter.xml
+*.xml
+
+# Transcript / session files (personal notes)
+2026-*-*-*.txt
+
+# Old folder name (before reorganization)
+vector_db/
+
+# Development utilities
+app/extract_everything.py
+app/search_cli.py
+
+# Cache directory and secret files
+app/cache/
+app/cookie_secret.txt

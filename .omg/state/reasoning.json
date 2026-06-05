@@ -1,0 +1,5 @@
+{
+  "objective": "Perform security audit for a public repo",
+  "criticalLane": "identify-leaks-and-vulnerabilities",
+  "findings": []
+}
