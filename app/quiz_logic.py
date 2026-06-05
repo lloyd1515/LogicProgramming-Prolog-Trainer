@@ -141,6 +141,34 @@ def few_shot_examples(quizzes: list[dict[str, Any]], question_type: str, limit: 
     return examples
 
 
+def few_shot_examples_diverse(quizzes: list[dict[str, Any]]) -> str:
+    if not quizzes:
+        return ""
+
+    examples = "\nHere are 3 examples of real questions from the database to understand the expected difficulty, style, and structure:\n"
+    allowed_keys = {"type", "topic", "question_text", "code", "visual", "blanks_or_options", "correct_answer"}
+    
+    types = ["multiple_choice", "code_completion", "code_tracing"]
+    selected_samples = []
+    
+    for q_type in types:
+        matched = [q for q in quizzes if q.get("type") == q_type]
+        if matched:
+            selected_samples.append(random.choice(matched))
+            
+    # Fallback to random samples if we could not get 3 unique types
+    if len(selected_samples) < 3 and quizzes:
+        remaining_needed = 3 - len(selected_samples)
+        other_pool = [q for q in quizzes if q not in selected_samples]
+        if other_pool:
+            selected_samples.extend(random.sample(other_pool, min(remaining_needed, len(other_pool))))
+
+    for idx, quiz in enumerate(selected_samples, start=1):
+        clean_quiz = {key: value for key, value in quiz.items() if key in allowed_keys}
+        examples += f"Example {idx} ({clean_quiz.get('type')}):\n{json.dumps(clean_quiz, indent=2, ensure_ascii=False)}\n\n"
+    return examples
+
+
 def select_diverse_slides(slides: list[Any], n: int) -> list[Any]:
     """Pick n slides spread across as many different sources as possible."""
     if len(slides) <= n:

@@ -733,7 +733,7 @@
       "blank4",
       "blank5"
     ],
-    "correct_answer": "blank1 = nil, blank2 = nil, blank3 = t(L, NK, R), blank4 = !, blank5 = K, NK, R, NR",
+    "correct_answer": "blank1 = _, blank2 = nil, nil, blank3 = t(L, NK, R), blank4 = !, blank5 = K, NK, R, NR",
     "source": "RASPUNSURI_BUNE_pl.pdf (Page 19)"
   },
   {
@@ -1183,7 +1183,7 @@
       "c. change the inequality into a nonstrict one",
       "d. add a clause for the empty list"
     ],
-    "correct_answer": "a. nothing, it is stable as it is",
+    "correct_answer": "c. change the inequality into a nonstrict one",
     "source": "RASPUNSURI_BUNE_pl.pdf (Page 35)"
   },
   {
@@ -1271,7 +1271,7 @@
       "c. add a cut in the first clause",
       "d. change the order of the clauses"
     ],
-    "correct_answer": "Unresolved in the source image: the selected option b is visibly marked incorrect; no corrected option is shown on the page.",
+    "correct_answer": "b. make the initial call with the first argument free variable",
     "source": "RASPUNSURI_BUNE_pl.pdf (Page 39)"
   },
   {

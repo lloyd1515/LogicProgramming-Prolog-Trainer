@@ -1428,7 +1428,7 @@ def render_generated_quiz(collection, quizzes: list[dict], api_key: str) -> None
         progress = st.progress(0, text="Generating...")
         status_text = st.empty()
 
-        examples_text = quiz_logic.few_shot_examples(quizzes, "multiple_choice")
+        examples_text = quiz_logic.few_shot_examples_diverse(quizzes)
         status_text.caption("Sending the 24 slides to Gemini...")
 
         try:

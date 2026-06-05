@@ -9,6 +9,7 @@ from app.quiz_logic import (
     compose_blank_answer,
     extract_blank_labels,
     few_shot_examples,
+    few_shot_examples_diverse,
     is_answer_correct,
     option_letter,
     parse_model_json,
@@ -112,6 +113,17 @@ class QuizLogicTests(unittest.TestCase):
         self.assertIn('"visual"', examples)
         self.assertNotIn('"source"', examples)
 
+    def test_few_shot_examples_diverse(self):
+        quizzes = [
+            {"type": "multiple_choice", "topic": "T1", "question_text": "Q1", "code": None, "blanks_or_options": ["a", "b"], "correct_answer": "a"},
+            {"type": "code_completion", "topic": "T2", "question_text": "Q2", "code": "c.", "blanks_or_options": ["blank1"], "correct_answer": "blank1 = 1"},
+            {"type": "code_tracing", "topic": "T3", "question_text": "Q3", "code": "t.", "blanks_or_options": None, "correct_answer": "yes"},
+        ]
+        examples = few_shot_examples_diverse(quizzes)
+        self.assertIn('"multiple_choice"', examples)
+        self.assertIn('"code_completion"', examples)
+        self.assertIn('"code_tracing"', examples)
+
     def test_lettered_options_are_multiple_choice_quizzes(self):
         quiz_path = Path(__file__).resolve().parents[1] / "app" / "quizzes.json"
         quizzes = json.loads(quiz_path.read_text(encoding="utf-8"))
@@ -134,6 +146,61 @@ class QuizLogicTests(unittest.TestCase):
                 mismatches.append((index, quiz.get("source"), quiz.get("question_text")))
 
         self.assertEqual(mismatches, [])
+
+    def test_multiple_choice_answers_resolve_to_available_options(self):
+        quiz_path = Path(__file__).resolve().parents[1] / "app" / "quizzes.json"
+        quizzes = json.loads(quiz_path.read_text(encoding="utf-8"))
+        mismatches = []
+        for index, quiz in enumerate(quizzes):
+            if quiz.get("type") != "multiple_choice":
+                continue
+
+            correct_answer = quiz.get("correct_answer")
+            options = quiz.get("blanks_or_options") or []
+            if "unresolved" in str(correct_answer).lower():
+                mismatches.append((index, quiz.get("source"), correct_answer))
+                continue
+
+            correct_letter = option_letter(correct_answer)
+            option_letters = {option_letter(option) for option in options}
+            option_letters.discard(None)
+            if correct_letter and option_letters and correct_letter not in option_letters:
+                mismatches.append((index, quiz.get("source"), correct_answer))
+                continue
+
+            if correct_answer not in options and not any(
+                is_answer_correct(option, correct_answer, "multiple_choice") for option in options
+            ):
+                mismatches.append((index, quiz.get("source"), correct_answer))
+
+        self.assertEqual(mismatches, [])
+
+    def test_known_quiz_barem_regressions_from_source_images(self):
+        quiz_path = Path(__file__).resolve().parents[1] / "app" / "quizzes.json"
+        quizzes = json.loads(quiz_path.read_text(encoding="utf-8"))
+
+        expected_multiple_choice_answers = {
+            "To make the predicate ins_sort/3 stable, we need to:": "a",
+            "To make the predicate select_sort/3 stable, we need to: (corrected quiz view)": "c",
+            "The predicate below verifies if the first argument (an element) is present in the second argument (a list). To have a non-deterministic call, we need to:": "b",
+        }
+
+        for question_text, expected_letter in expected_multiple_choice_answers.items():
+            matches = [quiz for quiz in quizzes if quiz.get("question_text") == question_text]
+            self.assertEqual(len(matches), 1, question_text)
+            self.assertEqual(option_letter(matches[0]["correct_answer"]), expected_letter)
+
+        expected_code_completion_answers = {
+            "I want to write a predicate which replaces a given key in a BST with another key, specified as argument. The predicate should leave the tree unchanged if the searched key is not in the tree. Complete the partial implementation so that you get a correct predicate:": (
+                "blank1 = _, blank2 = nil, nil, blank3 = t(L, NK, R), blank4 = !, "
+                "blank5 = K, NK, R, NR"
+            ),
+        }
+
+        for question_text, expected_answer in expected_code_completion_answers.items():
+            matches = [quiz for quiz in quizzes if quiz.get("question_text") == question_text]
+            self.assertEqual(len(matches), 1, question_text)
+            self.assertEqual(clean_answer(matches[0]["correct_answer"]), clean_answer(expected_answer))
 
 
 class FakeCollection:
