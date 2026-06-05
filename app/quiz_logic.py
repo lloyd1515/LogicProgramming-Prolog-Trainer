@@ -134,7 +134,7 @@ def few_shot_examples(quizzes: list[dict[str, Any]], question_type: str, limit: 
     sample = random.sample(pool, min(limit, len(pool)))
 
     examples = "\nHere are 2 examples of real questions from the database to understand the difficulty and structure:\n"
-    allowed_keys = {"type", "topic", "question_text", "code", "blanks_or_options", "correct_answer"}
+    allowed_keys = {"type", "topic", "question_text", "code", "visual", "blanks_or_options", "correct_answer"}
     for idx, quiz in enumerate(sample, start=1):
         clean_quiz = {key: value for key, value in quiz.items() if key in allowed_keys}
         examples += f"Example {idx}:\n{json.dumps(clean_quiz, indent=2, ensure_ascii=False)}\n\n"

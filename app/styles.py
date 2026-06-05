@@ -45,6 +45,25 @@ APP_CSS = """
     vertical-align: middle !important;
 }
 
+.quiz-visual {
+    max-width: 560px !important;
+    margin: 1rem 0 1.1rem !important;
+}
+
+.quiz-visual-title {
+    color: #94a3b8 !important;
+    font-size: 0.82rem !important;
+    font-weight: 700 !important;
+    margin-bottom: 0.35rem !important;
+    text-transform: uppercase !important;
+}
+
+.quiz-visual svg {
+    width: 100% !important;
+    height: auto !important;
+    display: block !important;
+}
+
 /* ── Search chips ─────────────────────────────── */
 .search-chips {
     display: flex;

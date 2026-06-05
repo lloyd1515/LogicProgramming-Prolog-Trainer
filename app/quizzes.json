@@ -1524,6 +1524,74 @@
     "topic": "Graph Traversals (Prolog)",
     "question_text": "You are given the predicate below and the example graph (undirected, edge-clause form, nodes appear in lexicographic order). What will the predicate base look like after the execution of: ?- d(a).",
     "code": "d(X) :- asserta(vert(X)), edge(X, Y), \\+(vert(Y)), d(Y).",
+    "visual": {
+      "type": "graph",
+      "title": "Example graph",
+      "nodes": [
+        "a",
+        "b",
+        "c",
+        "d",
+        "e",
+        "f"
+      ],
+      "edges": [
+        [
+          "a",
+          "b"
+        ],
+        [
+          "a",
+          "c"
+        ],
+        [
+          "a",
+          "f"
+        ],
+        [
+          "b",
+          "c"
+        ],
+        [
+          "c",
+          "d"
+        ],
+        [
+          "c",
+          "f"
+        ],
+        [
+          "f",
+          "e"
+        ]
+      ],
+      "positions": {
+        "a": [
+          170,
+          70
+        ],
+        "b": [
+          330,
+          55
+        ],
+        "c": [
+          360,
+          135
+        ],
+        "d": [
+          430,
+          245
+        ],
+        "e": [
+          215,
+          235
+        ],
+        "f": [
+          90,
+          150
+        ]
+      }
+    },
     "blanks_or_options": [
       "a. vert(a), vert(b), vert(c), vert(d), vert(f), vert(e)",
       "b. vert(d), vert(c), vert(b), vert(a)",

@@ -579,6 +579,112 @@ def reset_quiz_state_for_topic(selected_topic: str) -> None:
                 pass
 
 
+def restore_answer_widget_for_question(quiz: dict, index: int, saved_answer) -> None:
+    if not is_answered(saved_answer):
+        return
+
+    question_type = quiz.get("type", "multiple_choice")
+    blank_labels = quiz_logic.blank_labels_for_quiz(quiz)
+    if quiz.get("code") and blank_labels and question_type != "multiple_choice":
+        parsed = {}
+        for part in str(saved_answer).split(","):
+            if "=" in part:
+                key, value = part.split("=", 1)
+                parsed[key.strip().lower()] = value.strip()
+        for label in blank_labels:
+            key = blank_key(index, label.lower())
+            if key not in st.session_state and label.lower() in parsed:
+                st.session_state[key] = parsed[label.lower()]
+        return
+
+    key = answer_key(index)
+    if key not in st.session_state:
+        st.session_state[key] = saved_answer
+
+
+def render_graph_visual(visual: dict) -> None:
+    nodes = [str(node) for node in visual.get("nodes") or []]
+    edges = visual.get("edges") or []
+    if not nodes:
+        return
+
+    width = 520
+    height = 300
+    radius = 21
+    raw_positions = visual.get("positions") or {}
+    positions: dict[str, tuple[float, float]] = {}
+    for idx, node in enumerate(nodes):
+        if node in raw_positions and len(raw_positions[node]) >= 2:
+            x, y = raw_positions[node][:2]
+            positions[node] = (float(x), float(y))
+        else:
+            angle = (2 * math.pi * idx / len(nodes)) - (math.pi / 2)
+            positions[node] = (
+                width / 2 + math.cos(angle) * 150,
+                height / 2 + math.sin(angle) * 105,
+            )
+
+    edge_lines = []
+    for edge in edges:
+        if not isinstance(edge, list | tuple) or len(edge) < 2:
+            continue
+        source, target = str(edge[0]), str(edge[1])
+        if source not in positions or target not in positions:
+            continue
+        x1, y1 = positions[source]
+        x2, y2 = positions[target]
+        edge_lines.append(
+            f"<line x1='{x1:.1f}' y1='{y1:.1f}' x2='{x2:.1f}' y2='{y2:.1f}' "
+            "stroke='#8fb9e8' stroke-width='2.4' stroke-linecap='round' />"
+        )
+
+    node_shapes = []
+    for node in nodes:
+        x, y = positions[node]
+        label = html.escape(node)
+        node_shapes.append(
+            f"<circle cx='{x:.1f}' cy='{y:.1f}' r='{radius}' fill='#4f91d9' "
+            "stroke='#2d5f9f' stroke-width='2' />"
+            f"<text x='{x:.1f}' y='{y + 5:.1f}' text-anchor='middle' "
+            "font-family='Arial, sans-serif' font-size='15' font-weight='700' "
+            f"fill='white'>{label}</text>"
+        )
+
+    title = html.escape(str(visual.get("title") or "Graph"))
+    svg = (
+        "<div class='quiz-visual'>"
+        f"<div class='quiz-visual-title'>{title}</div>"
+        f"<svg viewBox='0 0 {width} {height}' role='img' aria-label='{title}'>"
+        "<rect x='1' y='1' width='518' height='298' rx='8' fill='#f8fbff' stroke='#d8e5f5' />"
+        f"{''.join(edge_lines)}{''.join(node_shapes)}"
+        "</svg></div>"
+    )
+    st.markdown(svg, unsafe_allow_html=True)
+
+
+def render_quiz_visual(quiz: dict) -> None:
+    visual = quiz.get("visual")
+    if not isinstance(visual, dict):
+        return
+
+    visual_type = visual.get("type")
+    if visual_type == "graph":
+        render_graph_visual(visual)
+        return
+
+    if visual_type == "image":
+        image_path = visual.get("path")
+        if not image_path:
+            return
+        path = Path(image_path)
+        if not path.is_absolute():
+            path = APP_DIR / path
+        if path.exists():
+            st.image(str(path), caption=visual.get("caption") or visual.get("alt"))
+        else:
+            st.warning(f"Question image not found: {image_path}")
+
+
 # ── Inline blank rendering ─────────────────────────────────────────────────────
 
 def inline_code_piece_weight(value: str) -> int:
@@ -635,6 +741,7 @@ def render_question(quiz: dict, index: int, *, disabled: bool = False):
         st.markdown(f"**{quiz.get('question_text')}**")
 
         question_type = quiz.get("type", "multiple_choice")
+        render_quiz_visual(quiz)
         blank_labels = quiz_logic.blank_labels_for_quiz(quiz)
         if quiz.get("code") and blank_labels and question_type != "multiple_choice":
             return render_inline_blank_code(quiz.get("code", ""), index, blank_labels, disabled=disabled)
@@ -742,6 +849,7 @@ def render_attempt_review(filtered_quizzes: list[dict]) -> None:
         )
         with st.expander(f"Question {index + 1}: {'✅ Correct' if is_correct else '❌ Incorrect'}"):
             st.markdown(quiz.get("question_text", ""))
+            render_quiz_visual(quiz)
             if quiz.get("code"):
                 st.code(quiz.get("code"), language="prolog")
             st.markdown(f"**Your answer:** `{user_answer or 'Not answered'}`")
@@ -835,6 +943,11 @@ def render_official_quiz(quizzes: list[dict]) -> None:
     with main_col:
         st.markdown("#### Attempt")
         st.caption(f"Question {current_index + 1} of {len(filtered_quizzes)}")
+        restore_answer_widget_for_question(
+            quiz,
+            current_index,
+            st.session_state.get("quiz_answers", {}).get(current_index),
+        )
         user_answer = render_question(quiz, current_index)
         save_current_answer(current_index, user_answer)
 
@@ -1379,6 +1492,7 @@ def render_generated_quiz(collection, quizzes: list[dict], api_key: str) -> None
                         {
                             "text": q.get("question_text", ""),
                             "code": q.get("code"),
+                            "visual": q.get("visual"),
                             "options": q.get("blanks_or_options"),
                             "correct": q.get("correct_answer")
                         }
@@ -1417,6 +1531,7 @@ def render_generated_quiz(collection, quizzes: list[dict], api_key: str) -> None
             user_ans = answers.get(i, "")
             ok = quiz_logic.is_answer_correct(user_ans, q.get("correct_answer"), q.get("type", "multiple_choice"))
             with st.expander(f"Q{i+1}: {'✅' if ok else '❌'} {q.get('question_text', '')[:60]}..."):
+                render_quiz_visual(q)
                 if q.get("code"):
                     st.code(q["code"], language="prolog")
                 st.markdown(f"**Your answer:** `{user_ans or 'Unanswered'}`")
@@ -1437,6 +1552,11 @@ def render_generated_quiz(collection, quizzes: list[dict], api_key: str) -> None
     with main_col:
         st.markdown("#### Attempt (generated)")
         st.caption(f"Question {gen_index + 1} of {len(batch)}")
+        restore_answer_widget_for_question(
+            quiz,
+            gen_index,
+            st.session_state.get("gen_answers", {}).get(gen_index),
+        )
         user_answer = render_question(quiz, gen_index)
 
         # Save answer

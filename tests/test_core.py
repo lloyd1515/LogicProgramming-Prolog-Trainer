@@ -8,6 +8,7 @@ from app.quiz_logic import (
     clean_answer,
     compose_blank_answer,
     extract_blank_labels,
+    few_shot_examples,
     is_answer_correct,
     option_letter,
     parse_model_json,
@@ -78,6 +79,38 @@ class QuizLogicTests(unittest.TestCase):
 
     def test_parse_model_json_accepts_json_list(self):
         self.assertEqual(parse_model_json('```json\n[{"type": "code_tracing"}]\n```')[0]["type"], "code_tracing")
+
+    def test_example_graph_questions_have_visual_context(self):
+        quiz_path = Path(__file__).resolve().parents[1] / "app" / "quizzes.json"
+        quizzes = json.loads(quiz_path.read_text(encoding="utf-8"))
+        missing = [
+            (index, quiz.get("source"))
+            for index, quiz in enumerate(quizzes)
+            if "example graph" in quiz.get("question_text", "").lower() and not quiz.get("visual")
+        ]
+
+        self.assertEqual(missing, [])
+
+    def test_few_shot_examples_preserve_visual_schema(self):
+        examples = few_shot_examples(
+            [
+                {
+                    "type": "multiple_choice",
+                    "topic": "Graphs",
+                    "question_text": "Use the graph.",
+                    "code": None,
+                    "visual": {"type": "graph", "nodes": ["a", "b"], "edges": [["a", "b"]]},
+                    "blanks_or_options": ["a. yes", "b. no"],
+                    "correct_answer": "a. yes",
+                    "source": "ignored",
+                }
+            ],
+            "multiple_choice",
+            limit=1,
+        )
+
+        self.assertIn('"visual"', examples)
+        self.assertNotIn('"source"', examples)
 
 
 class FakeCollection:
