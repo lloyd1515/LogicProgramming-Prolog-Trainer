@@ -112,6 +112,29 @@ class QuizLogicTests(unittest.TestCase):
         self.assertIn('"visual"', examples)
         self.assertNotIn('"source"', examples)
 
+    def test_lettered_options_are_multiple_choice_quizzes(self):
+        quiz_path = Path(__file__).resolve().parents[1] / "app" / "quizzes.json"
+        quizzes = json.loads(quiz_path.read_text(encoding="utf-8"))
+        prefixes = ("a.", "b.", "c.", "d.", "e.", "f.", "a)", "b)", "c)", "d)", "e)", "f)")
+        mismatches = []
+        for index, quiz in enumerate(quizzes):
+            options = quiz.get("blanks_or_options")
+            if quiz.get("type") == "multiple_choice" or not isinstance(options, list):
+                continue
+
+            lettered_count = sum(
+                isinstance(option, str) and option.strip().lower().startswith(prefixes)
+                for option in options
+            )
+            blank_labels = all(
+                isinstance(option, str) and option.strip().lower().replace("_", "").startswith("blank")
+                for option in options
+            )
+            if lettered_count >= 2 and not blank_labels:
+                mismatches.append((index, quiz.get("source"), quiz.get("question_text")))
+
+        self.assertEqual(mismatches, [])
+
 
 class FakeCollection:
     metadata = collection_metadata()

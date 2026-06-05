@@ -75,7 +75,7 @@
     "source": "Screenshot 2026-06-03 221657.png"
   },
   {
-    "type": "code_tracing",
+    "type": "multiple_choice",
     "topic": "Prolog List Manipulation",
     "question_text": "Given the predicates below, which is the first answer to the following query?\n?- aa(_, Y, _, [1,2,3,4]).",
     "code": "a([H|T], L, [H|R]) :- a(T, L, R).\na([], L, L).\n\naa(A, B, C, D) :- a(A, B, E), a(E, C, D).",
@@ -179,7 +179,7 @@
     "source": "RASPUNSURI_BUNE_pl.pdf (Page 3)"
   },
   {
-    "type": "code_tracing",
+    "type": "multiple_choice",
     "topic": "Prolog bubble sort, list manipulation, append",
     "question_text": "The predicate below implements bubble sort (where append/3 has the regular, correct implementation). How many calls does the second append make to get the sorted array for the input [2,1,5,4,3]:",
     "code": "bubble_sort(In, Out) :-\n    append(X, [A,B|Y], In),\n    A>B, !,\n    append(X, [B,A|Y], Int),\n    bubble_sort(Int, Out).\nbubble_sort(In, In).",
