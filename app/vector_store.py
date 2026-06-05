@@ -170,3 +170,34 @@ def slides_to_context(slides: list[SlideResult]) -> str:
         f"\n--- Curs: {slide.source}, Pagina: {slide.page}, Slide: {slide.title} ---\n{slide.text}\n"
         for slide in slides
     )
+
+
+def get_all_slides(collection, limit: int = 180, selected_sources: list[str] | None = None) -> list[SlideResult]:
+    try:
+        get_kwargs: dict[str, Any] = {"limit": limit}
+        source_filter = build_source_filter(selected_sources)
+        if source_filter:
+            get_kwargs["where"] = source_filter
+
+        results = collection.get(**get_kwargs)
+        if not results or not results.get("ids"):
+            return []
+
+        slides: list[SlideResult] = []
+        for idx, _doc_id in enumerate(results["ids"]):
+            metadata = results["metadatas"][idx] or {}
+            page = metadata.get("page", "?")
+            slides.append(
+                SlideResult(
+                    title=metadata.get("title", f"Slide {page}"),
+                    source=metadata.get("source", "Unknown"),
+                    page=page,
+                    similarity=100.0,
+                    distance=0.0,
+                    text=results["documents"][idx],
+                )
+            )
+        return slides
+    except Exception:
+        return []
+

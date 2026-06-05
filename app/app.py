@@ -1406,12 +1406,17 @@ def render_generated_quiz(collection, quizzes: list[dict], api_key: str) -> None
     gen_query = st.text_input(
         "Concept to search (seed):",
         value="Prolog",
-        placeholder="e.g. backtracking, lists, cut...",
+        placeholder="e.g. backtracking, lists, cut (or keep default 'Prolog' for a balanced mix across all lectures)...",
     )
 
-    seed_slides_all = vector_store.search_slides(collection, gen_query, 30) if gen_query else []
+    query_stripped = gen_query.strip().lower() if gen_query else ""
+    if not query_stripped or query_stripped == "prolog":
+        seed_slides_all = vector_store.get_all_slides(collection, limit=180)
+    else:
+        seed_slides_all = vector_store.search_slides(collection, gen_query, 30)
+
     if not seed_slides_all:
-        st.info("Enter a term to find source slides.")
+        st.info("No slides found. Please enter a valid term to find source slides.")
         return
 
     # Pick diverse slides for the batch

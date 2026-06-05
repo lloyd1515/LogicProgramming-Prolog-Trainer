@@ -22,6 +22,7 @@ from app.vector_store import (
     collection_metadata,
     distance_to_similarity,
     ensure_collection_metadata,
+    get_all_slides,
     get_cache_collection,
     search_query_cache,
     search_slides,
@@ -218,6 +219,14 @@ class FakeCollection:
             "distances": [[0.5]],
         }
 
+    def get(self, **kwargs):
+        self.get_kwargs = kwargs
+        return {
+            "ids": ["LP1.pdf_page_1"],
+            "documents": ["cut prevents some backtracking"],
+            "metadatas": [{"source": "LP1.pdf", "page": 1, "title": "The CUT"}],
+        }
+
 
 class FakeCacheCollection:
     def __init__(self):
@@ -263,6 +272,14 @@ class VectorStoreTests(unittest.TestCase):
         self.assertEqual(collection.kwargs["where"], {"source": "LP1.pdf"})
         self.assertEqual(slides[0].title, "The CUT")
         self.assertEqual(slides[0].similarity, 75.0)
+
+    def test_get_all_slides_maps_chroma_result(self):
+        collection = FakeCollection()
+        slides = get_all_slides(collection, 1, ["LP1.pdf"])
+
+        self.assertEqual(collection.get_kwargs["where"], {"source": "LP1.pdf"})
+        self.assertEqual(slides[0].title, "The CUT")
+        self.assertEqual(slides[0].similarity, 100.0)
 
     def test_collection_health_flags_stale_metadata(self):
         class StaleCollection:
