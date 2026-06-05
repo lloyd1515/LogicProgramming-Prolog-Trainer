@@ -784,7 +784,8 @@ def render_quiz_navigation(filtered_quizzes: list[dict], current_index: int) -> 
                 answered = is_answered(answers.get(index))
                 status = "current" if index == current_index else "answered" if answered else "empty"
                 label = quiz_nav_label(index, answered, index in flags)
-                if col.button(label, key=f"quiz_nav_{index}", help=status):
+                button_type = "primary" if index == current_index else "secondary"
+                if col.button(label, key=f"quiz_nav_{index}", help=status, type=button_type):
                     st.session_state.current_index = index
                     st.session_state.quiz_summary = False
                     save_official_quiz_state_helper()
@@ -1599,7 +1600,8 @@ def render_generated_quiz(collection, quizzes: list[dict], api_key: str) -> None
                         continue
                     answered = is_answered(gen_answers.get(idx))
                     status = "current" if idx == gen_index else "answered" if answered else "empty"
-                    if col.button(quiz_nav_label(idx, answered), key=f"gen_nav_{idx}", help=status):
+                    button_type = "primary" if idx == gen_index else "secondary"
+                    if col.button(quiz_nav_label(idx, answered), key=f"gen_nav_{idx}", help=status, type=button_type):
                         st.session_state.gen_index = idx
                         save_generated_quiz_cache(batch, gen_answers, idx, gen_submitted)
                         st.rerun()

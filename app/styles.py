@@ -372,12 +372,16 @@ div[data-testid="stAlert"], [data-testid="stExpander"] {
     border: 1px solid #bdbdbd !important;
 }
 
-[data-testid="stColumn"]:has(.moodle-nav-title) div.stButton > button[type="primary"] {
+[data-testid="stColumn"]:has(.moodle-nav-title) div.stButton > button[type="primary"],
+[data-testid="stColumn"]:has(.moodle-nav-title) div.stButton > button[kind="primary"],
+[class*="st-key-quiz_nav_"] button[kind="primary"],
+[class*="st-key-gen_nav_"] button[kind="primary"] {
     width: 100% !important;
     min-width: 100% !important;
-    background-color: #e2e8f0 !important;
-    color: #090a0f !important;
-    border: 1px solid #e2e8f0 !important;
+    background-color: #2563eb !important;
+    color: #ffffff !important;
+    border: 1px solid #60a5fa !important;
+    box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.35) !important;
 }
 
 /* ── Inline code blanks ───────────────────────── */
